@@ -76,5 +76,5 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
     "payload": [59.21625, 10.93167]
 }
 ```
-*`signal` could be used instead of pid above
+`signal` could be used instead of pid above
 
