@@ -59,6 +59,7 @@ Simple key to identify if a request of any type went well or not (boolean value)
 
 #### payload
 The actual thing that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" called in `signal`.
+
 **Ex:** 
 - Sensor values (push data from a device)
 - User records (requested from a database)
