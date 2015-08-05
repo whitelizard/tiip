@@ -12,7 +12,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | clientTime  | Timestamp from client. Seconds since 1 Jan 1970, as String.                       | String          |                                                                        | No (Yes if no timestamp) |
 | destination | Optional destination ID(s). In case of server or DIP hierarchy.                   | Array of String |                                                                        | No |
 | source      | Optional source ID(s). In case of server or DIP hierarchy.                        | Array of String |                                                                        | No |
-| type        | Message type (see valid values)                                                   | String          | init, kill, data, req, reply, create, read, update, delete, sub, unsub | No |
+| type        | Message type (see valid values)                                                   | String          | init, kill, data, req, reply, create, read, update, delete, action, sub, unsub | No |
 | pid         | Id of a service, sensor or process. (Hierarchic pid should use "." between nodes) | String          |                                                                        | No |
 | mid         | Message ID, for asynchronous messaging.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
@@ -43,6 +43,7 @@ Some different standard values are:
 - **data**: Push of data.
 - **req, reply**: The request-reply pattern.
 - **create, read, update, delete**: This is the standard CRUD - the four basic functions of persistant storage.
+- **action**: Additional request type for non-CRUD action.
 - **sub, unsub**: Subscription request and unsubscribe request.
 
 #### pid
