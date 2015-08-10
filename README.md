@@ -12,7 +12,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | clientTime  | Timestamp from client. Seconds since 1 Jan 1970, as String.                       | String          |                                                                        | No (Yes if no timestamp) |
 | destination | Optional destination ID(s). In case of server or DIP hierarchy.                   | Array of String |                                                                        | No |
 | source      | Optional source ID(s). In case of server or DIP hierarchy.                        | Array of String |                                                                        | No |
-| type        | Message type (see valid values)                                                   | String          | init, kill, data, req, reply, create, read, update, delete, action, sub, unsub | No |
+| type        | Message type (see valid values)                                                   | String          | init, kill, data, req, rep, create, read, update, delete, action, pub, sub, unsub | No |
 | pid         | Id of a service, sensor or process. (Hierarchic pid should use "." between nodes) | String          |                                                                        | No |
 | mid         | Message ID, for asynchronous messaging.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
@@ -40,11 +40,11 @@ Data source ID, with additional nodes in case of more advanced device or server 
 #### type
 Some different standard values are:
 - **init, kill**: For persistant connections, a "login" message and a disconnect message.
-- **data**: Push of data.
-- **req, reply**: The request-reply pattern.
+- **data**: Push of data. Consider using **pub** instead, in publish-subscribe systems.
+- **req, rep**: The request-reply pattern. Consider using below CRUD types for the request instead, to be more specific.
 - **create, read, update, delete**: This is the standard CRUD - the four basic functions of persistant storage.
 - **action**: Additional request type for non-CRUD action.
-- **sub, unsub**: Subscription request and unsubscribe request.
+- **pub, sub, unsub**: Publish-subscribe pattern.
 
 #### pid
 Indicating a certain sub-system. Could be used both as describer of what part the message comes from, or what process it is targeting (the `type` should clarify that).
@@ -79,5 +79,28 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
 }
 ```
 `signal` could be used instead of pid above
+
+
+```json
+{
+    "protocol": "tiip.0.7",
+    "timestamp": "1387345934.702",
+    "type": "action",
+    "pid": "motor",
+    "signal": "stop"
+}
+```
+
+
+```json
+{
+    "protocol": "tiip.0.7",
+    "clientTime": "1387349004.221",
+    "type": "update",
+    "pid": "conf",
+    "signal": "userDashboard",
+    "payload": ["4Xd0hN3z", "map", "temperature", "alarms"]
+}
+```
 
 [add more examples here]
