@@ -10,11 +10,11 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | protocol    |	Protocol name                                                                     |	String          | tiip.0.8                                                               | Yes |
 | timestamp   | Seconds since 1 Jan 1970, as String. Controlled by the server.                    | String          |                                                                        | No (Yes if no clientTime) |
 | clientTime  | Timestamp from client. Seconds since 1 Jan 1970, as String.                       | String          |                                                                        | No (Yes if no timestamp) |
-| destination | Optional destination ID(s). In case of server or DIP hierarchy.                   | Array of String |                                                                        | No |
-| source      | Optional source ID(s). In case of server or DIP hierarchy.                        | Array of String |                                                                        | No |
+| destination | Optional destination ID(s). In case of server or gateway hierarchy.                   | Array of String |                                                                        | No |
+| source      | Optional source ID(s). In case of server or gateway hierarchy.                        | Array of String |                                                                        | No |
 | type        | Message type (see valid values)                                                   | String          | init, kill, create, read, update, delete, req, rep, pub, sub, unsub | No |
 | pid         | Id of a service, sensor or process. (Hierarchic pid should use "." between nodes) | String          |                                                                        | No |
-| mid         | Message ID, for asynchronous messaging.                                           | String          |                                                                        | No |
+| mid         | Message ID.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
 | ok          | Boolean indicating success or failure.                                            | Boolean         |                                                                        | No |
 | payload     | Arguments, data etc. Binary data should be Base64 encoded.                        | Array           |                                                                        | No |
