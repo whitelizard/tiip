@@ -3,8 +3,6 @@ Thin Industrial Internet Protocol
 
 TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.
 
-## TIIP 0.8
-
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
 | protocol    |	Protocol name                                                                     |	String          | tiip.0.8                                                               | Yes |
@@ -69,9 +67,9 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
 ### By example
 ```json
 {
-    "protocol": "tiip.0.7",
+    "protocol": "tiip.0.8",
     "clientTime": "1379921889.4",
-    "type": "data",
+    "type": "pub",
     "pid": "position",
     "payload": [59.21625, 10.93167]
 }
@@ -81,9 +79,9 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
 
 ```json
 {
-    "protocol": "tiip.0.7",
+    "protocol": "tiip.0.8",
     "timestamp": "1387345934.702",
-    "type": "action",
+    "type": "req",
     "pid": "motor",
     "signal": "stop"
 }
@@ -92,7 +90,7 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
 
 ```json
 {
-    "protocol": "tiip.0.7",
+    "protocol": "tiip.0.8",
     "clientTime": "1387349004.221",
     "type": "update",
     "pid": "conf",
