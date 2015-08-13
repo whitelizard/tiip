@@ -3,16 +3,16 @@ Thin Industrial Internet Protocol
 
 TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.
 
-## TIIP 0.7
+## TIIP 0.8
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol    |	Protocol name                                                                     |	String          | tiip.0.7                                                               | Yes |
+| protocol    |	Protocol name                                                                     |	String          | tiip.0.8                                                               | Yes |
 | timestamp   | Seconds since 1 Jan 1970, as String. Controlled by the server.                    | String          |                                                                        | No (Yes if no clientTime) |
 | clientTime  | Timestamp from client. Seconds since 1 Jan 1970, as String.                       | String          |                                                                        | No (Yes if no timestamp) |
 | destination | Optional destination ID(s). In case of server or DIP hierarchy.                   | Array of String |                                                                        | No |
 | source      | Optional source ID(s). In case of server or DIP hierarchy.                        | Array of String |                                                                        | No |
-| type        | Message type (see valid values)                                                   | String          | init, kill, data, req, rep, create, read, update, delete, action, pub, sub, unsub | No |
+| type        | Message type (see valid values)                                                   | String          | init, kill, create, read, update, delete, req, rep, pub, sub, unsub | No |
 | pid         | Id of a service, sensor or process. (Hierarchic pid should use "." between nodes) | String          |                                                                        | No |
 | mid         | Message ID, for asynchronous messaging.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
@@ -22,7 +22,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.7"
+The name/ID of the protocol (including version). Ex: "tiip.0.8"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
@@ -40,10 +40,8 @@ Data source ID, with additional nodes in case of more advanced device or server 
 #### type
 Some different standard values are:
 - **init, kill**: For persistant connections, a "login" message and a disconnect message.
-- **data**: Push of data. Consider using **pub** instead, in publish-subscribe systems.
-- **req, rep**: The request-reply pattern. Consider using below CRUD types for the request instead, to be more specific.
-- **create, read, update, delete**: This is the standard CRUD - the four basic functions of persistant storage.
-- **action**: Additional request type for non-CRUD action.
+- **create, read, update, delete, req**: This is the standard CRUD - the four basic functions of persistant storage, plus additional general request type for non-CRUD action.
+- **rep**: A reply to a message.
 - **pub, sub, unsub**: Publish-subscribe pattern.
 
 #### pid
