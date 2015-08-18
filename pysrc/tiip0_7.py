@@ -1,15 +1,17 @@
 """
-    Thin Industrial Internet Protocol 0.7
+Thin Industrial Internet Protocol 0.7
 
-import tiip07 as tiip
+EX. USAGE:
 
-msg = ws.receive()
-msgDict = tiip.unpack(msg)
-
-if msgDict['signal'] == 'init':
-    ...
-
-tiip.pack(pid=, signal='init', payload=['sensor', ''..])
+    import tiip07 as tiip
+    
+    msg = ws.receive()
+    msgDict = tiip.unpack(msg)
+    
+    if msgDict['signal'] == 'init':
+        ...
+    
+    tiip.pack(msgType='pub', pid='measurement', signal='position', payload=[X, X])
 """
 
 import time
@@ -33,6 +35,7 @@ def getTimestamp():
 def format(pid=None, signal=None, ok=None, payload=None, msgType=None, destination=None, source=None, clientTime=None, mid=None):
     """
     Creates protocol message structure as a dictionary
+    TODO: like unpackExternal, it's needed different format/pack for client that adds clientTime instead of timestamp
     """
     msg = {
         'protocol': 'tiip.0.7',
