@@ -100,3 +100,18 @@ The actual thing that needs to be sent to the other side. Often regarded as the 
 ```
 
 [add more examples here]
+
+
+## Test
+
+Karma is used for unit testing. To run the test install karma and dependencies thrue Node package manager with
+
+```shell
+npm install
+```
+
+To run the test
+
+```shell
+karma start test\karma-conf.js
+```
