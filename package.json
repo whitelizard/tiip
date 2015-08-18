@@ -1,6 +1,6 @@
 {
   "name": "tiip",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.",
   "main": "index.js",
   "scripts": {
