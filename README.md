@@ -108,10 +108,10 @@ Karma is used for unit testing. To run the test install karma and dependencies t
 
 ```shell
 npm install
+npm install -g karma-cli
 ```
 
-To run the test
-
+To run the tests
 ```shell
 karma start test\karma-conf.js
 ```
