@@ -1,0 +1,30 @@
+{
+  "name": "tiip",
+  "version": "1.0.0",
+  "description": "TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whitelizard/tiip.git"
+  },
+  "keywords": [
+    "tiip"
+  ],
+  "author": "whitelizard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/whitelizard/tiip/issues"
+  },
+  "homepage": "https://github.com/whitelizard/tiip#readme",
+  "devDependencies": {
+    "angular": "^1.4.4",
+    "angular-mocks": "^1.4.4",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6"
+  }
+}
