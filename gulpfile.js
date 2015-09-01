@@ -5,6 +5,7 @@
 var gulp = require('gulp');
 var typescript = require('gulp-typescript');
 var concat = require('gulp-concat');
+var del = require('del');
 
 /////////// CONFIG ///////////
 
