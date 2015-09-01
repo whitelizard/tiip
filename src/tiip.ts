@@ -1,21 +1,21 @@
 ///<reference path="../../DefinitelyTyped/angularjs/angular.d.ts"/>
-
-module tspcom {
-    'use strict';
     
-    export interface ITiipMessage {  // move this to new ts version of tiip
-        type?: string;
-        pid?: string;
-        signal?: string;
-        payload?: any[];
-        ok?: boolean;
-        mid?: string;
-        destination?: string[];
-        source?: string[];
-        protocol?: string;
-        timestamp?: string;
-        clientTime?: string;
-    }
+export interface ITiipMessage {  // move this to new ts version of tiip
+    type?: string;
+    pid?: string;
+    signal?: string;
+    payload?: any[];
+    ok?: boolean;
+    mid?: string;
+    destination?: string[];
+    source?: string[];
+    protocol?: string;
+    timestamp?: string;
+    clientTime?: string;
+}
+
+module tiip {
+    'use strict';
     
     interface ITiip {
         pack: (

@@ -27,7 +27,7 @@ var config = {
     tsConf: {
         module: 'commonjs',
         target: 'ES5',
-        out: 'dist/tiip.js'
+        out: 'tiip.js'
     }
 };
 
