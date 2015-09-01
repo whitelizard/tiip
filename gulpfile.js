@@ -11,9 +11,9 @@ var del = require('del');
 
 var config = {
     tiip: {
-        root: 'src',
-        ts: 'src/*.ts',
-        js: 'src/*.js',
+        root: 'src/tiip',
+        ts: ['src/tiip/tiip.ts', 'src/tiip/**/!(tiip)*.ts'],
+        js: ['src/tiip/tiip.js', 'src/tiip/**/!(tiip)*.js'],
         distName: 'tiip.js'
     },
     test: {
@@ -25,9 +25,7 @@ var config = {
     },
     tsConf: {
         module: 'commonjs',
-        target: 'ES5',
-        out: 'tsout.js',
-        sortOutput: true
+        target: 'ES5'
     }
 };
 
@@ -39,8 +37,6 @@ gulp.task('clean', function(cb) {
 
 gulp.task('tiipCompile', function() {
     gulp.src(config.tiip.ts)
-        // .pipe(tslint)
-        // .pipe(tslint.report, 'verbose')
         .pipe(typescript(config.tsConf))
         .pipe(gulp.dest(config.tiip.root));
 });
@@ -76,4 +72,4 @@ gulp.task('watch', function() {
 
 /////////// DEFAULT TASKS ///////////
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build']);

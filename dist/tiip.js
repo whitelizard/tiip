@@ -1,4 +1,4 @@
-///<reference path="../../DefinitelyTyped/angularjs/angular.d.ts"/>
+///<reference path="../../../DefinitelyTyped/angularjs/angular.d.ts"/>
 var tiip;
 (function (tiip) {
     'use strict';
@@ -68,5 +68,3 @@ var tiip;
         return new Tiip();
     }
 })(tiip || (tiip = {}));
-
-
