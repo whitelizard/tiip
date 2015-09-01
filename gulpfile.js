@@ -4,18 +4,16 @@
 
 var gulp = require('gulp');
 var typescript = require('gulp-typescript');
+var concat = require('gulp-concat');
 
 /////////// CONFIG ///////////
 
 var config = {
-    libs: {
-        js: [
-            'node_modules/angular/angular.min.js',
-        ]
-    },
     tiip: {
         root: 'src',
-        ts: 'src/tiip.ts'
+        ts: 'src/*.ts',
+        js: 'src/*.js',
+        distName: 'tiip.js'
     },
     test: {
         conf: '\src\test\karma-conf.js',
@@ -27,7 +25,8 @@ var config = {
     tsConf: {
         module: 'commonjs',
         target: 'ES5',
-        out: 'tiip.js'
+        out: 'tsout.js',
+        sortOutput: true
     }
 };
 
@@ -39,16 +38,30 @@ gulp.task('clean', function(cb) {
 
 gulp.task('tiipCompile', function() {
     gulp.src(config.tiip.ts)
+        // .pipe(tslint)
+        // .pipe(tslint.report, 'verbose')
         .pipe(typescript(config.tsConf))
+        .pipe(gulp.dest(config.tiip.root));
+});
+        
+gulp.task('tiipJs', function() {
+    gulp.src(config.tiip.js)
+        .pipe(concat(config.tiip.distName))
         .pipe(gulp.dest(config.dist.root));
 });
 
-gulp.task('build', ['tiipCompile']);  //'clean',
+gulp.task('tiip', ['tiipCompile'], function() {  // Same as tspcomJs, but with dependency to ts compile task
+    gulp.src(config.tiip.js)
+        .pipe(concat(config.tiip.distName))
+        .pipe(gulp.dest(config.dist.root));
+});
+
+gulp.task('build', ['tiip']);  //'clean',
 
 /////////// SERVER AND WATCH TASKS ///////////
 
 gulp.task('watch', function() {
-    gulp.watch(config.tiip.ts, ['tiipCompile']);
+    gulp.watch(config.tiip.ts, ['tiip']);
 });
 
 /////////// TESTING TASKS //////////////

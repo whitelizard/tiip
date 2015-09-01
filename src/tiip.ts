@@ -1,6 +1,6 @@
 ///<reference path="../../DefinitelyTyped/angularjs/angular.d.ts"/>
     
-export interface ITiipMessage {  // move this to new ts version of tiip
+export interface ITiipMessage {
     type?: string;
     pid?: string;
     signal?: string;
