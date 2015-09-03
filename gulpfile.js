@@ -6,14 +6,25 @@ var gulp = require('gulp');
 var typescript = require('gulp-typescript');
 var concat = require('gulp-concat');
 var del = require('del');
+var merge = require('merge2');
 
 /////////// CONFIG ///////////
 
 var config = {
-    tiip: {
-        root: 'src/tiip',
-        ts: ['src/tiip/tiip.ts', 'src/tiip/**/!(tiip)*.ts'],
-        js: ['src/tiip/tiip.js', 'src/tiip/**/!(tiip)*.js'],
+    ts: {
+        // src: ['src/tiip/tiip.ts', 'src/tiip/**/!(tiip)*.ts'],
+        src: 'src/tiip/**/*.ts',
+        distTypings: 'dist',
+        conf: {
+            module: 'commonjs',
+            target: 'ES5',
+            sortOutput: true,
+            declaration : true,
+            removeComments: true
+        }
+    },
+    js: {
+        // src: ['src/tiip/tiip.js', 'src/tiip/**/!(tiip)*.js'],
         distName: 'tiip.js'
     },
     test: {
@@ -22,43 +33,47 @@ var config = {
     dist: {
         root: 'dist',
         files: 'dist/**/*'
-    },
-    tsConf: {
-        module: 'commonjs',
-        target: 'ES5'
     }
 };
+
+var tsProject = typescript.createProject(config.ts.conf);
 
 /////////// COMPILE AND MOVING TASKS ///////////
 
 gulp.task('clean', function(cb) {
-    del([config.dist.files], cb);
+    del(config.dist.files, cb);
 });
 
-gulp.task('tiipCompile', function() {
-    gulp.src(config.tiip.ts)
-        .pipe(typescript(config.tsConf))
-        .pipe(gulp.dest(config.tiip.root));
+gulp.task('ts', function() {
+    var tsResult = gulp.src(config.ts.src)
+        .pipe(typescript(tsProject));
+    
+    return merge([
+        tsResult.dts.pipe(gulp.dest(config.ts.distTypings)),
+        tsResult.js
+            .pipe(concat(config.js.distName))
+            .pipe(gulp.dest(config.dist.root))
+    ]);
 });
         
-gulp.task('tiipJs', function() {
-    gulp.src(config.tiip.js)
-        .pipe(concat(config.tiip.distName))
-        .pipe(gulp.dest(config.dist.root));
-});
+// gulp.task('tiipJs', function() {
+    // gulp.src(config.src.js)
+        // .pipe(concat(config.src.distName))
+        // .pipe(gulp.dest(config.dist.root));
+// });
 
-gulp.task('tiip', ['tiipCompile'], function() {  // Same as tspcomJs, but with dependency to ts compile task
-    gulp.src(config.tiip.js)
-        .pipe(concat(config.tiip.distName))
-        .pipe(gulp.dest(config.dist.root));
-});
+// gulp.task('tiip', ['tiipCompile'], function() {  // Same as xxxJs, but with dependency to ts compile task
+    // gulp.src(config.src.js)
+        // .pipe(concat(config.src.distName))
+        // .pipe(gulp.dest(config.dist.root));
+// });
 
-gulp.task('build', ['tiip']);  //'clean',
+gulp.task('build', ['ts']);
 
 /////////// SERVER AND WATCH TASKS ///////////
 
 gulp.task('watch', function() {
-    gulp.watch(config.tiip.ts, ['tiip']);
+    gulp.watch(config.ts.src, ['build']);
 });
 
 /////////// TESTING TASKS //////////////
@@ -70,6 +85,6 @@ gulp.task('watch', function() {
     // }, done).start();
 // });
 
-/////////// DEFAULT TASKS ///////////
+/////////// DEFAULT TASK ///////////
 
 gulp.task('default', ['build']);

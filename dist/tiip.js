@@ -1,13 +1,10 @@
-///<reference path="../../../DefinitelyTyped/angularjs/angular.d.ts"/>
+///<reference path="../../typings/tsd.d.ts"/>
 var tiip;
 (function (tiip) {
     'use strict';
-    /////////////////////////
     var Tiip = (function () {
         function Tiip() {
         }
-        //------ MEMBERS ------//
-        //------ METHODS ------//
         Tiip.prototype.pack = function (type, pid, signal, payload, ok, mid, destination, source) {
             var msg = {
                 'protocol': 'tiip.0.7',
@@ -51,14 +48,11 @@ var tiip;
             return JSON.parse(textMsg);
         };
         Tiip.prototype.unpackVerify = function (textMsg) {
-            // TODO: Perform validation etc here
             return this.unpack(textMsg);
         };
-        //------ SETUP ------//
         Tiip.$inject = [];
         return Tiip;
     })();
-    /////////////////////////
     angular.module('tiip', []);
     angular
         .module('tiip')
