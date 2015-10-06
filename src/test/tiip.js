@@ -3,7 +3,7 @@ describe('tiip', function(){
     
     it('create', inject(function(tiip){ //parameter name = service name
         
-        expect( tiip.unpack(tiip.pack('signal', ['payload'], 'type', 'pid', true, 'destination', 'source', 'mid')) )
+        expect( tiip.unpack(tiip.pack('type','pid','signal',['payload'],true, 'mid', 'destination', 'source', "tenant")) )
         .toEqual(jasmine.objectContaining({
             signal: 'signal',
             payload: ['payload'],
@@ -12,7 +12,8 @@ describe('tiip', function(){
             ok: true,
             destination: 'destination',
             source: 'source',
-            mid: 'mid'
+            mid: 'mid',
+            tenant: 'tenant'
         }));
         
     }))
