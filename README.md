@@ -15,6 +15,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | mid         | Message ID.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
 | ok          | Boolean indicating success or failure.                                            | Boolean         |                                                                        | No |
+| tenant      | Id of a tenant in a multitenancy solution                                         | String          |                                                                        | No |
 | payload     | Arguments, data etc. Binary data should be Base64 encoded.                        | Array           |                                                                        | No |
 
 ### Key details

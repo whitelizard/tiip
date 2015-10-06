@@ -9,6 +9,7 @@ export interface ITiipMessage {
     mid?: string;
     destination?: string[];
     source?: string[];
+    tenant?: string;
     protocol?: string;
     timestamp?: string;
     clientTime?: string;
@@ -26,7 +27,8 @@ module tiip {
             ok: boolean, 
             mid: string,
             destination: string[], 
-            source: string[]
+            source: string[],
+            tenant: string
         ):string;
         packObj(obj:ITiipMessage):string;
         unpack(textMsg:string):ITiipMessage;
@@ -55,11 +57,12 @@ module tiip {
             ok: boolean, 
             mid: string, 
             destination: string[], 
-            source: string[]
+            source: string[],
+            tenant: string
         ):string {
         
             var msg:ITiipMessage = {
-                'protocol': 'tiip.0.7',
+                'protocol': 'tiip.0.8',
                 'clientTime': Date.now()/1000+''
             };
             if (angular.isDefined(pid)) {
@@ -86,12 +89,15 @@ module tiip {
             if (angular.isDefined(mid)) {
                 msg['mid'] = mid;
             }
+            if (angular.isDefined(tenant)) {
+                msg['tenant'] = tenant;
+            }
             return JSON.stringify(msg);
         }
         
         packObj(obj:ITiipMessage):string {
             var msg:ITiipMessage = {
-                'protocol': 'tiip.0.7',
+                'protocol': 'tiip.0.8',
                 'clientTime': Date.now()/1000+''
             };
             angular.merge(msg, obj);
