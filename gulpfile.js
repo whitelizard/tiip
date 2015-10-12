@@ -79,13 +79,6 @@ gulp.task('watch', function() {
 
 /////////// TESTING TASKS //////////////
 
-// gulp.task('test', ['tiipCompile', 'watch'], function(done) {
-    // new Karma({
-        // configFile: __dirname  + '/src/test/karma-conf.js',
-        // singleRun: false
-    // }, done).start();
-// });
-
 gulp.task('test', ['build'], function (done) {
   new KarmaServer({
     configFile: __dirname + config.test.conf,
