@@ -1,4 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts" />
 export interface ITiipMessage {
     type?: string;
     pid?: string;
@@ -8,6 +7,7 @@ export interface ITiipMessage {
     mid?: string;
     destination?: string[];
     source?: string[];
+    tenant?: string;
     protocol?: string;
     timestamp?: string;
     clientTime?: string;

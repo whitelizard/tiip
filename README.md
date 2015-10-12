@@ -121,5 +121,5 @@ npm install -g karma-cli
 
 To run the tests
 ```shell
-karma start test\karma-conf.js
+karma start src\test\karma-conf.js
 ```

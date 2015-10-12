@@ -5,9 +5,9 @@ var tiip;
     var Tiip = (function () {
         function Tiip() {
         }
-        Tiip.prototype.pack = function (type, pid, signal, payload, ok, mid, destination, source) {
+        Tiip.prototype.pack = function (type, pid, signal, payload, ok, mid, destination, source, tenant) {
             var msg = {
-                'protocol': 'tiip.0.7',
+                'protocol': 'tiip.0.8',
                 'clientTime': Date.now() / 1000 + ''
             };
             if (angular.isDefined(pid)) {
@@ -34,11 +34,14 @@ var tiip;
             if (angular.isDefined(mid)) {
                 msg['mid'] = mid;
             }
+            if (angular.isDefined(tenant)) {
+                msg['tenant'] = tenant;
+            }
             return JSON.stringify(msg);
         };
         Tiip.prototype.packObj = function (obj) {
             var msg = {
-                'protocol': 'tiip.0.7',
+                'protocol': 'tiip.0.8',
                 'clientTime': Date.now() / 1000 + ''
             };
             angular.merge(msg, obj);
