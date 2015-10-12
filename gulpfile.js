@@ -7,6 +7,7 @@ var typescript = require('gulp-typescript');
 var concat = require('gulp-concat');
 var del = require('del');
 var merge = require('merge2');
+var KarmaServer = require('karma').Server;
 
 /////////// CONFIG ///////////
 
@@ -28,7 +29,7 @@ var config = {
         distName: 'tiip.js'
     },
     test: {
-        conf: '\src\test\karma-conf.js',
+        conf: '/src/karma-conf.js',
     },
     dist: {
         root: 'dist',
@@ -84,6 +85,13 @@ gulp.task('watch', function() {
         // singleRun: false
     // }, done).start();
 // });
+
+gulp.task('test', ['build'], function (done) {
+  new KarmaServer({
+    configFile: __dirname + config.test.conf,
+    singleRun: true
+  }, done).start();
+});
 
 /////////// DEFAULT TASK ///////////
 
