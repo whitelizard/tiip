@@ -16,5 +16,4 @@ describe('tiip', function(){
         }));
     }));
 
-
 })
