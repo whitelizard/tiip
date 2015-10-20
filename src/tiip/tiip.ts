@@ -1,5 +1,5 @@
 ///<reference path="../../typings/tsd.d.ts"/>
-    
+
 export interface ITiipMessage {
     type?: string;
     pid?: string;
@@ -24,11 +24,11 @@ module tiip {
             pid: string, 
             signal: string, 
             payload: any[], 
-            ok: boolean, 
             mid: string,
+            tenant: string, 
             destination: string[], 
             source: string[],
-            tenant: string
+            ok: boolean
         ):string;
         packObj(obj:ITiipMessage):string;
         unpack(textMsg:string):ITiipMessage;
@@ -54,11 +54,11 @@ module tiip {
             pid: string, 
             signal: string, 
             payload: any[], 
-            ok: boolean, 
             mid: string, 
+            tenant: string, 
             destination: string[], 
-            source: string[],
-            tenant: string
+            source: string[], 
+            ok: boolean
         ):string {
         
             var msg:ITiipMessage = {
