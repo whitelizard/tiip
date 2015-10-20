@@ -115,11 +115,5 @@ The package supports use of require.
 Karma is used for unit testing. To run the test install karma and dependencies thrue Node package manager with
 
 ```shell
-npm install
-npm install -g karma-cli
-```
-
-To run the tests
-```shell
-karma start src\test\karma-conf.js
+gulp test
 ```

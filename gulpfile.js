@@ -95,4 +95,4 @@ gulp.task('test', ['build'], function (done) {
 
 /////////// DEFAULT TASK ///////////
 
-gulp.task('default', ['build']);
+gulp.task('default', ['test']);
