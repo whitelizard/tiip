@@ -5,7 +5,7 @@ var tiip;
     var Tiip = (function () {
         function Tiip() {
         }
-        Tiip.prototype.pack = function (type, pid, signal, payload, ok, mid, destination, source, tenant) {
+        Tiip.prototype.pack = function (type, pid, signal, payload, mid, tenant, destination, source, ok) {
             var msg = {
                 'protocol': 'tiip.0.8',
                 'clientTime': Date.now() / 1000 + ''
