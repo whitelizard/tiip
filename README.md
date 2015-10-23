@@ -41,7 +41,7 @@ Some different standard values are:
 - **init, kill**: For persistant connections, a "login" message and a disconnect message.
 - **req, rep**: Request-reply pattern.
 - **sub**: Publish-subscribe pattern: Subscription request.
-- **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe message (no replies).
+- **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
 - create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if needed.
 
 #### pid
