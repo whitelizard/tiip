@@ -40,7 +40,8 @@ Data source ID, with additional nodes in case of more advanced device or server 
 Some different standard values are:
 - **init, kill**: For persistant connections, a "login" message and a disconnect message.
 - **req, rep**: Request-reply pattern.
-- **pub, sub, unsub**: Publish-subscribe pattern.
+- **sub**: Publish-subscribe pattern: Subscription request.
+- **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe message (no replies).
 - create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if needed.
 
 #### pid
