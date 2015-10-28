@@ -1,18 +1,17 @@
 ///<reference path="../../typings/tsd.d.ts"/>
 
 export interface ITiipMessage {
+    protocol?: string;
+    timestamp?: string;
+    clientTime?: string;
+    mid?: string;
     type?: string;
+    source?: string[];
     pid?: string;
     signal?: string;
     payload?: any[];
     ok?: boolean;
-    mid?: string;
-    destination?: string[];
-    source?: string[];
     tenant?: string;
-    protocol?: string;
-    timestamp?: string;
-    clientTime?: string;
 }
 
 module tiip {
@@ -26,7 +25,6 @@ module tiip {
             payload: any[], 
             mid: string,
             tenant: string, 
-            destination: string[], 
             source: string[],
             ok: boolean
         ):string;
@@ -56,15 +54,11 @@ module tiip {
             payload: any[], 
             mid: string, 
             tenant: string, 
-            destination: string[], 
             source: string[], 
             ok: boolean
         ):string {
-        
-            var msg:ITiipMessage = {
-                'protocol': 'tiip.0.8',
-                'clientTime': Date.now()/1000+''
-            };
+            var msg:ITiipMessage = this.baseMessage();
+            
             if (angular.isDefined(pid) && pid !== null) {
                 msg['pid'] = pid;
             }
@@ -80,9 +74,6 @@ module tiip {
             if (angular.isDefined(type) && type !== null) {
                 msg['type'] = type;
             }
-            if (angular.isDefined(destination) && destination !== null) {
-                msg['destination'] = destination;
-            }
             if (angular.isDefined(source) && source !== null) {
                 msg['source'] = source;
             }
@@ -96,11 +87,7 @@ module tiip {
         }
         
         packObj(obj:ITiipMessage):string {
-            var msg:ITiipMessage = {
-                'protocol': 'tiip.0.8',
-                'clientTime': Date.now()/1000+''
-            };
-            angular.merge(msg, obj);
+            var msg:ITiipMessage = angular.merge(this.baseMessage(), obj);
             return JSON.stringify(msg);
         }
 
@@ -111,6 +98,13 @@ module tiip {
         unpackVerify(textMsg:string):ITiipMessage {
             // TODO: Perform validation etc here
             return this.unpack(textMsg);
+        }
+        
+        baseMessage():ITiipMessage {
+            return {
+                'protocol': 'tiip.0.8',
+                'clientTime': Date.now()/1000+''
+            };
         }
     }
     

@@ -5,46 +5,36 @@ var tiip;
     var Tiip = (function () {
         function Tiip() {
         }
-        Tiip.prototype.pack = function (type, pid, signal, payload, mid, tenant, destination, source, ok) {
-            var msg = {
-                'protocol': 'tiip.0.8',
-                'clientTime': Date.now() / 1000 + ''
-            };
-            if (angular.isDefined(pid)) {
+        Tiip.prototype.pack = function (type, pid, signal, payload, mid, tenant, source, ok) {
+            var msg = this.baseMessage();
+            if (angular.isDefined(pid) && pid !== null) {
                 msg['pid'] = pid;
             }
-            if (angular.isDefined(signal)) {
+            if (angular.isDefined(signal) && signal !== null) {
                 msg['signal'] = signal;
             }
-            if (angular.isDefined(ok)) {
+            if (angular.isDefined(ok) && ok !== null) {
                 msg['ok'] = ok;
             }
-            if (angular.isDefined(payload)) {
+            if (angular.isDefined(payload) && payload !== null) {
                 msg['payload'] = payload;
             }
-            if (angular.isDefined(type)) {
+            if (angular.isDefined(type) && type !== null) {
                 msg['type'] = type;
             }
-            if (angular.isDefined(destination)) {
-                msg['destination'] = destination;
-            }
-            if (angular.isDefined(source)) {
+            if (angular.isDefined(source) && source !== null) {
                 msg['source'] = source;
             }
-            if (angular.isDefined(mid)) {
+            if (angular.isDefined(mid) && mid !== null) {
                 msg['mid'] = mid;
             }
-            if (angular.isDefined(tenant)) {
+            if (angular.isDefined(tenant) && tenant !== null) {
                 msg['tenant'] = tenant;
             }
             return JSON.stringify(msg);
         };
         Tiip.prototype.packObj = function (obj) {
-            var msg = {
-                'protocol': 'tiip.0.8',
-                'clientTime': Date.now() / 1000 + ''
-            };
-            angular.merge(msg, obj);
+            var msg = angular.merge(this.baseMessage(), obj);
             return JSON.stringify(msg);
         };
         Tiip.prototype.unpack = function (textMsg) {
@@ -52,6 +42,12 @@ var tiip;
         };
         Tiip.prototype.unpackVerify = function (textMsg) {
             return this.unpack(textMsg);
+        };
+        Tiip.prototype.baseMessage = function () {
+            return {
+                'protocol': 'tiip.0.8',
+                'clientTime': Date.now() / 1000 + ''
+            };
         };
         Tiip.$inject = [];
         return Tiip;
