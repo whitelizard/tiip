@@ -65,31 +65,31 @@ module tiip {
                 'protocol': 'tiip.0.8',
                 'clientTime': Date.now()/1000+''
             };
-            if (angular.isDefined(pid)) {
+            if (angular.isDefined(pid) && pid !== null) {
                 msg['pid'] = pid;
             }
-            if (angular.isDefined(signal)) {
+            if (angular.isDefined(signal) && signal !== null) {
                 msg['signal'] = signal;
             }
-            if (angular.isDefined(ok)) {
+            if (angular.isDefined(ok) && ok !== null) {
                 msg['ok'] = ok;
             }
-            if (angular.isDefined(payload)) {
+            if (angular.isDefined(payload) && payload !== null) {
                 msg['payload'] = payload;
             }
-            if (angular.isDefined(type)) {
+            if (angular.isDefined(type) && type !== null) {
                 msg['type'] = type;
             }
-            if (angular.isDefined(destination)) {
+            if (angular.isDefined(destination) && destination !== null) {
                 msg['destination'] = destination;
             }
-            if (angular.isDefined(source)) {
+            if (angular.isDefined(source) && source !== null) {
                 msg['source'] = source;
             }
-            if (angular.isDefined(mid)) {
+            if (angular.isDefined(mid) && mid !== null) {
                 msg['mid'] = mid;
             }
-            if (angular.isDefined(tenant)) {
+            if (angular.isDefined(tenant) && tenant !== null) {
                 msg['tenant'] = tenant;
             }
             return JSON.stringify(msg);
