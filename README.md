@@ -10,7 +10,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | clientTime  | Timestamp from client. Seconds since 1 Jan 1970, as String.                       | String          |                                                                        | No (Yes if no timestamp) |
 | destination | Optional destination ID(s). In case of server or gateway hierarchy.                   | Array of String |                                                                        | No |
 | source      | Optional source ID(s). In case of server or gateway hierarchy.                        | Array of String |                                                                        | No |
-| type        | Message type (see valid values)                                                   | String          | init, kill, create, read, update, delete, req, rep, pub, sub, unsub | No |
+| type        | Message type (see valid values)                                                   | String          |  | No |
 | pid         | Id of a service, sensor or process. (Hierarchic pid should use "." between nodes) | String          |                                                                        | No |
 | mid         | Message ID.                                           | String          |                                                                        | No |
 | signal      | Signal to indicate an operation or command.                                       | String          |                                                                        | No |
@@ -39,9 +39,10 @@ Data source ID, with additional nodes in case of more advanced device or server 
 #### type
 Some different standard values are:
 - **init, kill**: For persistant connections, a "login" message and a disconnect message.
-- **create, read, update, delete, req**: This is the standard CRUD - the four basic functions of persistant storage, plus additional general request type for non-CRUD action.
-- **rep**: A reply to a message.
-- **pub, sub, unsub**: Publish-subscribe pattern.
+- **req, rep**: Request-reply pattern.
+- **sub**: Publish-subscribe pattern: Subscription request.
+- **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
+- create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if needed.
 
 #### pid
 Indicating a certain sub-system. Could be used both as describer of what part the message comes from, or what process it is targeting (the `type` should clarify that).
