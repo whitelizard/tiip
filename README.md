@@ -35,8 +35,8 @@ Message ID. To identify an answer to a request for instance, in asyncronous comm
 
 #### type
 Some different standard values are:
-- **init, kill**: For persistant connections, a "login" message and a disconnect message.
 - **req, rep**: Request-reply pattern.
+- **init, kill**: Special request types for persistant connections -- a "login" message and a disconnect message. (Answered with *rep*.)
 - **sub**: Publish-subscribe pattern: Subscription request.
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
 - create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if needed.
