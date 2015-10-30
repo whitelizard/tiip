@@ -67,6 +67,7 @@ Simple key in a reply message that indicates the outcome of a request as a boole
 ID of a tenant in a multi-tenancy solution. Depending on the communication, 
 
 ### By example
+A gateway sends position data to the server:
 ```json
 {
     "protocol": "tiip.0.8",
@@ -78,7 +79,7 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 }
 ```
 
-
+Message from the server to a gateway that the motor should be stopped:
 ```json
 {
     "protocol": "tiip.0.8",
@@ -89,13 +90,13 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 }
 ```
 
-
+Message from a web client to make a change in the configuration data of a user:
 ```json
 {
     "protocol": "tiip.0.8",
     "clientTime": "1387349004.221",
     "type": "req",
-    "pid": "conf",
+    "pid": "configuration",
     "signal": "updateUserDashboard",
     "payload": ["4Xd0hN3z", "map", "temperature", "alarms"]
 }
