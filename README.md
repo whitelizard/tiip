@@ -10,7 +10,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | timestamp  | Seconds since 1 Jan 1970, as String. Controlled by the server.   | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
-| type       | Message type (see recommended values).                           | String          |          | No |
+| type       | Message type (see recommended values in details below).          | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | pid        | Id of the targeted process or sub-system.                        | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
@@ -35,7 +35,7 @@ Message ID. To identify an answer to a request for instance, in asyncronous comm
 
 #### type
 Some different standard values are:
-- **init, kill**: For persistant connections, a "login" message and a disconnect message.
+- **init, kill**: Messages for persistant connections, a "login" message (answered with *rep*) and a disconnect message.
 - **req, rep**: Request-reply pattern.
 - **sub**: Publish-subscribe pattern: Subscription request.
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
@@ -67,6 +67,7 @@ Simple key in a reply message that indicates the outcome of a request as a boole
 ID of a tenant in a multi-tenancy solution. Depending on the communication, 
 
 ### By example
+A gateway sends position data to the server:
 ```json
 {
     "protocol": "tiip.0.8",
@@ -78,7 +79,7 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 }
 ```
 
-
+Message from the server to a gateway that the motor should be stopped:
 ```json
 {
     "protocol": "tiip.0.8",
@@ -89,13 +90,13 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 }
 ```
 
-
+Message from a web client to make a change in the configuration data of a user:
 ```json
 {
     "protocol": "tiip.0.8",
     "clientTime": "1387349004.221",
     "type": "req",
-    "pid": "conf",
+    "pid": "configuration",
     "signal": "updateUserDashboard",
     "payload": ["4Xd0hN3z", "map", "temperature", "alarms"]
 }
