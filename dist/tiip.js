@@ -7,30 +7,22 @@ var tiip;
         }
         Tiip.prototype.pack = function (type, pid, signal, payload, mid, tenant, source, ok) {
             var msg = this.baseMessage();
-            if (angular.isDefined(pid) && pid !== null) {
-                msg['pid'] = pid;
-            }
-            if (angular.isDefined(signal) && signal !== null) {
-                msg['signal'] = signal;
-            }
-            if (angular.isDefined(ok) && ok !== null) {
-                msg['ok'] = ok;
-            }
-            if (angular.isDefined(payload) && payload !== null) {
-                msg['payload'] = payload;
-            }
-            if (angular.isDefined(type) && type !== null) {
-                msg['type'] = type;
-            }
-            if (angular.isDefined(source) && source !== null) {
-                msg['source'] = source;
-            }
-            if (angular.isDefined(mid) && mid !== null) {
-                msg['mid'] = mid;
-            }
-            if (angular.isDefined(tenant) && tenant !== null) {
-                msg['tenant'] = tenant;
-            }
+            if (angular.isDefined(pid) && pid !== null)
+                msg.pid = pid;
+            if (angular.isDefined(signal) && signal !== null)
+                msg.signal = signal;
+            if (angular.isDefined(ok) && ok !== null)
+                msg.ok = ok;
+            if (angular.isDefined(payload) && payload !== null)
+                msg.payload = payload;
+            if (angular.isDefined(type) && type !== null)
+                msg.type = type;
+            if (angular.isDefined(source) && source !== null)
+                msg.source = source;
+            if (angular.isDefined(mid) && mid !== null)
+                msg.mid = mid;
+            if (angular.isDefined(tenant) && tenant !== null)
+                msg.tenant = tenant;
             return JSON.stringify(msg);
         };
         Tiip.prototype.packObj = function (obj) {
