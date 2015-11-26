@@ -1,7 +1,7 @@
-describe('tiip', function(){
+describe('tiip', function() {
     beforeEach(module('tiip'));
        
-    it('all arguments', inject(function(tiip) { //parameter name = service name
+    it('all arguments', inject(function (tiip) { //parameter name = service name
         expect( tiip.unpack(tiip.pack('type', 'pid', 'signal', ['payload'], 'mid', 'tenant', 'source', 'sid', true)) )
         .toEqual(jasmine.objectContaining({
             type: 'type',
@@ -16,4 +16,4 @@ describe('tiip', function(){
         }));
     }));
 
-})
+});
