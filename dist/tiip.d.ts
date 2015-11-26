@@ -3,12 +3,13 @@ export interface ITiipMessage {
     protocol?: string;
     timestamp?: string;
     clientTime?: string;
-    mid?: string;
     type?: string;
-    source?: string[];
     pid?: string;
     signal?: string;
     payload?: any[];
-    ok?: boolean;
+    mid?: string;
     tenant?: string;
+    source?: string[];
+    sid?: string;
+    ok?: boolean;
 }

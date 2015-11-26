@@ -10,6 +10,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | timestamp  | Seconds since 1 Jan 1970, as String. Controlled by the server.   | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
+| sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | pid        | Id of the targeted process or sub-system.                        | String          |          | No |
@@ -32,6 +33,9 @@ The timestamp set by clients (devices) when a message is constructed. This is se
 
 #### mid
 Message ID. To identify an answer to a request for instance, in asyncronous communication.
+
+#### sid
+Session ID. To identify a session in case of non-implicit sessions.
 
 #### type
 Some different standard values are:

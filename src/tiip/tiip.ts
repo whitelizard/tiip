@@ -4,14 +4,15 @@ export interface ITiipMessage {
     protocol?: string;
     timestamp?: string;
     clientTime?: string;
-    mid?: string;
     type?: string;
-    source?: string[];
     pid?: string;
     signal?: string;
     payload?: any[];
-    ok?: boolean;
+    mid?: string;
     tenant?: string;
+    source?: string[];
+    sid?: string;
+    ok?: boolean;
 }
 
 module tiip {
@@ -26,6 +27,7 @@ module tiip {
             mid: string,
             tenant: string, 
             source: string[],
+            sid: string,
             ok: boolean
         ):string;
         packObj(obj:ITiipMessage):string;
@@ -48,25 +50,27 @@ module tiip {
         //------ METHODS ------//
         
         pack(
-            type: string, 
-            pid: string, 
-            signal: string, 
-            payload: any[], 
-            mid: string, 
-            tenant: string, 
-            source: string[], 
+            type: string,
+            pid: string,
+            signal: string,
+            payload: any[],
+            mid: string,
+            tenant: string,
+            source: string[],
+            sid: string,
             ok: boolean
         ):string {
             var msg:ITiipMessage = this.baseMessage();
             
+            if (angular.isDefined(type) && type !== null) msg.type = type;
             if (angular.isDefined(pid) && pid !== null) msg.pid = pid;
             if (angular.isDefined(signal) && signal !== null) msg.signal = signal;
-            if (angular.isDefined(ok) && ok !== null) msg.ok = ok;
             if (angular.isDefined(payload) && payload !== null) msg.payload = payload;
-            if (angular.isDefined(type) && type !== null) msg.type = type;
-            if (angular.isDefined(source) && source !== null) msg.source = source;
             if (angular.isDefined(mid) && mid !== null) msg.mid = mid;
             if (angular.isDefined(tenant) && tenant !== null) msg.tenant = tenant;
+            if (angular.isDefined(source) && source !== null) msg.source = source;
+            if (angular.isDefined(sid) && sid !== null) msg.sid = sid;
+            if (angular.isDefined(ok) && ok !== null) msg.ok = ok;
             
             return JSON.stringify(msg);
         }
