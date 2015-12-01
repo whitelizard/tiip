@@ -1,3 +1,3 @@
-require('./dist/tiip.js');
+require('./src/tiip/tiip.js');
 
 module.exports = 'tiip';
