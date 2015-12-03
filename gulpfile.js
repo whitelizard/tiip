@@ -3,15 +3,27 @@
 /////////// IMPORTS ///////////
 
 var gulp = require('gulp');
-var typescript = require('gulp-typescript');
-var concat = require('gulp-concat');
 var del = require('del');
+var concat = require('gulp-concat');
+var typescript = require('gulp-typescript');
 var merge = require('merge2');
+
 var KarmaServer = require('karma').Server;
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+// var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var reactify = require('reactify');
 
 /////////// CONFIG ///////////
 
 var config = {
+    src: {
+        root: 'src/tiip',
+        toClean: 'src/tiip/**/*.js',
+        indexjs: './index.js',
+    },
     ts: {
         // src: ['src/tiip/tiip.ts', 'src/tiip/**/!(tiip)*.ts'],
         src: 'src/tiip/**/*.ts',
@@ -24,10 +36,10 @@ var config = {
             removeComments: true
         }
     },
-    js: {
-        // src: ['src/tiip/tiip.js', 'src/tiip/**/!(tiip)*.js'],
-        distName: 'tiip.js'
-    },
+    // js: {
+        // // src: ['src/tiip/tiip.js', 'src/tiip/**/!(tiip)*.js'],
+        // distName: 'tiip.js'
+    // },
     test: {
         conf: '/src/karma-conf.js',
     },
@@ -41,35 +53,43 @@ var tsProject = typescript.createProject(config.ts.conf);
 
 /////////// COMPILE AND MOVING TASKS ///////////
 
-gulp.task('clean', function(cb) {
-    del(config.dist.files, cb);
+gulp.task('clean', function() {
+    del([config.dist.files]);
+    del([config.src.toClean]);
 });
 
-gulp.task('ts', function() {
+gulp.task('tiipTs', function() {
     var tsResult = gulp.src(config.ts.src)
         .pipe(typescript(tsProject));
     
     return merge([
-        tsResult.dts.pipe(gulp.dest(config.ts.distTypings)),
+        tsResult.dts
+            .pipe(gulp.dest(config.ts.distTypings)),
         tsResult.js
-            .pipe(concat(config.js.distName))
-            .pipe(gulp.dest(config.dist.root))
+            .pipe(gulp.dest(config.src.root))
     ]);
 });
-        
-// gulp.task('tiipJs', function() {
-    // gulp.src(config.src.js)
-        // .pipe(concat(config.src.distName))
-        // .pipe(gulp.dest(config.dist.root));
-// });
 
-// gulp.task('tiip', ['tiipCompile'], function() {  // Same as xxxJs, but with dependency to ts compile task
-    // gulp.src(config.src.js)
-        // .pipe(concat(config.src.distName))
-        // .pipe(gulp.dest(config.dist.root));
-// });
+gulp.task('tiip', ['tiipTs'], function () {
+    var b = browserify({
+        entries: config.src.indexjs,
+        debug: true,
+        transform: [reactify], // defining transforms here will avoid crashing your stream
+        ignoreMissing: true // For ignoring error messages. The websocket lib is using require as an argument for a function.
+    });
+    
+    return b.bundle()
+        .pipe(source('tiip.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+            // Add transformation tasks to the pipeline here.
+            // .pipe(uglify())
+            // .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(config.dist.root));
+});
 
-gulp.task('build', ['ts']);
+gulp.task('build', ['tiip']);
 
 /////////// SERVER AND WATCH TASKS ///////////
 
