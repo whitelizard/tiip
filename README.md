@@ -6,7 +6,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.0.9 | Yes |
+| protocol   | Protocol name/version                                            | String          | tiip.0.8 | Yes |
 | timestamp  | Seconds since 1 Jan 1970, as String. Controlled by the server.   | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
@@ -78,7 +78,7 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.0.8",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
@@ -90,7 +90,7 @@ A gateway sends position data to the server:
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.0.8",
     "timestamp": "1387345934.702",
     "type": "req",
     "pid": "motor",
@@ -101,7 +101,7 @@ Message from the server to a gateway that the motor should be stopped:
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.0.8",
     "clientTime": "1387349004.221",
     "type": "req",
     "pid": "configuration",
