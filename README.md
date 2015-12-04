@@ -15,7 +15,8 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | pid        | Id of the targeted process or sub-system.                        | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
-| payload    | List of data. Binary data is Base64 encoded.                     | Object/(Array)  |          | No |
+| arguments  | Named arguments or data.                                         | Object          |          | No |
+| payload    | List of data.                                                    | Array           |          | No |
 | ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
 | tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
 
@@ -54,9 +55,11 @@ The targeted process or sub-system. An ID or address that the receiver can use t
 #### signal
 Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
 
+#### arguments
+The actual content that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" specified in `signal`.
+
 #### payload
-The actual thing(s) that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" specified in `signal`.
-Preferably an Object (dictionary/associative array) with named values. Previously an Array, but the Object data type is recommended.
+Content to be sent, as a list.
 
 **Ex:**
 - Sensor values (push data from a device)
