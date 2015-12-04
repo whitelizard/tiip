@@ -6,7 +6,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.0.8 | Yes |
+| protocol   | Protocol name/version                                            | String          | tiip.0.9 | Yes |
 | timestamp  | Seconds since 1 Jan 1970, as String. Controlled by the server.   | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
@@ -15,14 +15,15 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | pid        | Id of the targeted process or sub-system.                        | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
-| payload    | Arguments, data etc. Binary data should be Base64 encoded.       | Array           |          | No |
+| arguments  | Named arguments or data.                                         | Object          |          | No |
+| payload    | List of data.                                                    | Array           |          | No |
 | ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
 | tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
 
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.8"
+The name/ID of the protocol (including version). Ex: "tiip.0.9"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
@@ -43,7 +44,7 @@ Some different standard values are:
 - **req, rep**: Request-reply pattern.
 - **sub**: Publish-subscribe pattern: Subscription request.
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
-- create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if needed.
+- create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if desired.
 
 #### source
 Origin ID, with prepended nodes further along the communication chain if needed.
@@ -54,10 +55,13 @@ The targeted process or sub-system. An ID or address that the receiver can use t
 #### signal
 Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
 
-#### payload
-The actual thing that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" called in `signal`.
+#### arguments
+The actual content that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" specified in `signal`.
 
-**Ex:** 
+#### payload
+Content to be sent, as a list.
+
+**Ex:**
 - Sensor values (push data from a device)
 - User records (requested from a database)
 - Notification records published on an internal bus channel for instance
@@ -74,19 +78,19 @@ ID of a tenant in a multi-tenancy solution. Depending on the communication,
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
     "source": ["gpsSensor239"],
-    "payload": [59.21625, 10.93167]
+    "arguments": {"long": 59.21625, "lat": 10.93167}
 }
 ```
 
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "timestamp": "1387345934.702",
     "type": "req",
     "pid": "motor",
@@ -97,12 +101,12 @@ Message from the server to a gateway that the motor should be stopped:
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "clientTime": "1387349004.221",
     "type": "req",
     "pid": "configuration",
     "signal": "updateUserDashboard",
-    "payload": ["4Xd0hN3z", "map", "temperature", "alarms"]
+    "arguments": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
 }
 ```
 
