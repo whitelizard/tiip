@@ -5,7 +5,7 @@ var tiip;
     var Tiip = (function () {
         function Tiip() {
         }
-        Tiip.prototype.pack = function (type, pid, signal, payload, mid, tenant, source, sid, ok) {
+        Tiip.prototype.pack = function (type, pid, signal, arguments_, payload, mid, tenant, source, sid, ok) {
             var msg = this.baseMessage();
             if (angular.isDefined(type) && type !== null)
                 msg.type = type;
@@ -13,6 +13,8 @@ var tiip;
                 msg.pid = pid;
             if (angular.isDefined(signal) && signal !== null)
                 msg.signal = signal;
+            if (angular.isDefined(arguments_) && arguments_ !== null)
+                msg.arguments = arguments_;
             if (angular.isDefined(payload) && payload !== null)
                 msg.payload = payload;
             if (angular.isDefined(mid) && mid !== null)

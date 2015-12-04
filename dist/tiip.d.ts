@@ -6,6 +6,9 @@ export interface ITiipMessage {
     type?: string;
     pid?: string;
     signal?: string;
+    arguments?: {
+        string: any;
+    };
     payload?: any[];
     mid?: string;
     tenant?: string;

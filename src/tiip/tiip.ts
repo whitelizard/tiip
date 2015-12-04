@@ -24,7 +24,7 @@ module tiip {
             type: string, 
             pid: string, 
             signal: string, 
-            arguments: {string:any}, 
+            arguments_: {string:any},
             payload: any[], 
             mid: string,
             tenant: string, 
@@ -55,7 +55,7 @@ module tiip {
             type: string,
             pid: string,
             signal: string,
-            arguments: {string:any},
+            arguments_: {string:any},
             payload: any[],
             mid: string,
             tenant: string,
@@ -68,7 +68,7 @@ module tiip {
             if (angular.isDefined(type) && type !== null) msg.type = type;
             if (angular.isDefined(pid) && pid !== null) msg.pid = pid;
             if (angular.isDefined(signal) && signal !== null) msg.signal = signal;
-            if (angular.isDefined(arguments) && arguments !== null) msg.arguments = arguments;
+            if (angular.isDefined(arguments_) && arguments_ !== null) msg.arguments = arguments_;
             if (angular.isDefined(payload) && payload !== null) msg.payload = payload;
             if (angular.isDefined(mid) && mid !== null) msg.mid = mid;
             if (angular.isDefined(tenant) && tenant !== null) msg.tenant = tenant;
