@@ -23,7 +23,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.9"
+The name/ID of the protocol (including version). Ex: "tiip.0.8"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
