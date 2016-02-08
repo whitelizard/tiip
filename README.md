@@ -26,7 +26,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 The name/ID of the protocol (including version). Ex: "tiip.0.8"
 
 #### timestamp
-Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
+Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
 Handeled centrally - for instance set by the server for each messages on their arrival. See also `clientTime`.
 
 #### clientTime
@@ -72,7 +72,7 @@ Content to be sent, as a list.
 Simple key in a reply message that indicates the outcome of a request as a boolean.
 
 #### tenant
-ID of a tenant in a multi-tenancy solution. Depending on the communication, 
+ID of a tenant in a multi-tenancy solution. Depending on the communication,
 
 ### By example
 A gateway sends position data to the server:
@@ -118,6 +118,13 @@ npm install tiip
 ```
 
 The package supports use of require.
+
+## Build
+
+```shell
+babel src/ -d lib/
+jsdox lib/ -o docs/
+```
 
 ## Test
 

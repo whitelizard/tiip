@@ -1,3 +1,2 @@
-require('./src/tiip/tiip.js');
 
-module.exports = 'tiip';
+module.exports = require('./lib/tiip');
