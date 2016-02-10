@@ -24,17 +24,21 @@ import extend from 'extend';
 export function pack(type, pid, signal, args, payload, mid, tenant, source, ok) {
     var msg = baseMessage();
 
-    if (pid !== undefined && pid !== null) msg.pid = pid;
-    if (signal !== undefined && signal !== null) msg.signal = signal;
-    if (ok !== undefined && ok !== null) msg.ok = ok;
-    if (args !== undefined && args !== null) msg.arguments = args;
-    if (payload !== undefined && payload !== null) msg.payload = payload;
-    if (type !== undefined && type !== null) msg.type = type;
-    if (source !== undefined && source !== null) msg.source = source;
-    if (mid !== undefined && mid !== null) msg.mid = mid;
-    if (tenant !== undefined && tenant !== null) msg.tenant = tenant;
+    if (isSet(pid)) msg.pid = pid;
+    if (isSet(signal)) msg.signal = signal;
+    if (isSet(ok)) msg.ok = ok;
+    if (isSet(args)) msg.arguments = args;
+    if (isSet(payload)) msg.payload = payload;
+    if (isSet(type)) msg.type = type;
+    if (isSet(source)) msg.source = source;
+    if (isSet(mid)) msg.mid = mid;
+    if (isSet(tenant)) msg.tenant = tenant;
 
     return JSON.stringify(msg);
+
+    function isSet(value) {
+        return (value !== undefined && value !== null);
+    }
 }
 
 /**

@@ -122,14 +122,8 @@ The package supports use of require.
 ## Build
 
 ```shell
-babel src/ -d lib/
-jsdox lib/ -o docs/
+babel src -d lib
+jsdox lib -o docs
 ```
 
 ## Test
-
-Karma is used for unit testing. To run the test install karma and dependencies thrue Node package manager with
-
-```shell
-gulp test
-```
