@@ -1,7 +1,15 @@
-import _ from 'underscore';
+import extend from 'extend';
 
 /**
- * pack parameters into tiip json
+ * @title tiip
+ * @module tiip
+ * @overview Thin Industrial Internet Protocol.
+ * @author Esbjörn Blomquist
+ */
+
+/**
+ * Pack parameters into tiip json
+ * @function
  * @param  {string} type    type of message (e.g. pub, sub, req)
  * @param  {string} pid     target module
  * @param  {string} signal  command/API function
@@ -30,17 +38,19 @@ export function pack(type, pid, signal, args, payload, mid, tenant, source, ok) 
 }
 
 /**
- * javascript object into tiip JSON message
+ * Javascript object into tiip JSON message
+ * @function
  * @param  {object} obj JS object
  * @return {string}     JSON tiip message
  */
 export function packObj(obj) {
-    var msg = _.extendOwn(baseMessage(), obj);
+    var msg = extend(baseMessage(), obj);
     return JSON.stringify(msg);
 }
 
 /**
  * Unpack tiip message into JS object
+ * @function
  * @param  {string} textMsg JSON tiip message
  * @return {object}         tiip msg as JS object
  */
@@ -50,6 +60,7 @@ export function unpack(textMsg) {
 
 /**
  * Unpack tiip message with checking
+ * @function
  * @param  {string} textMsg JSON tiip message
  * @return {object}         tiip msg as JS object
  */
