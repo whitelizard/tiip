@@ -33,6 +33,6 @@ expect(msg).to.have.property('arguments').that.is.an('object').that.has.property
 expect(msg).to.have.property('payload').that.is.an('array').that.contain('payload');
 expect(msg).to.have.property('mid').that.is.a('string').that.equals('mid');
 expect(msg).to.have.property('tenant').that.is.a('string').that.equals('tenant');
-expect(msg).to.have.property('source').that.is.a('string').that.equals('source');
+expect(msg).to.have.property('source').that.is.a('array').that.contain('source');
 expect(msg).to.have.property('sid').that.is.a('string').that.equals('sid');
 expect(msg).to.have.property('ok').that.is.a('boolean').that.is.true;

@@ -21,18 +21,19 @@ import extend from 'extend';
  * @param  {boolean} ok     ok signal for reply messages
  * @return {string}         JSON tiip message
  */
-export function pack(type, pid, signal, args, payload, mid, tenant, source, ok) {
+export function pack(type, pid, signal, args, payload, mid, tenant, source, sid, ok) {
     var msg = baseMessage();
 
+    if (isSet(type)) msg.type = type;
     if (isSet(pid)) msg.pid = pid;
     if (isSet(signal)) msg.signal = signal;
-    if (isSet(ok)) msg.ok = ok;
     if (isSet(args)) msg.arguments = args;
     if (isSet(payload)) msg.payload = payload;
-    if (isSet(type)) msg.type = type;
-    if (isSet(source)) msg.source = source;
     if (isSet(mid)) msg.mid = mid;
     if (isSet(tenant)) msg.tenant = tenant;
+    if (isSet(source)) msg.source = source;
+    if (isSet(sid)) msg.sid = sid;
+    if (isSet(ok)) msg.ok = ok;
 
     return JSON.stringify(msg);
 
