@@ -18,6 +18,7 @@ import extend from 'extend';
  * @param  {string} mid     message ID
  * @param  {string} tenant  tenant name/id
  * @param  {array} source   array with IDs of nodes that the message passed
+ * @param  {string} sid     session ID
  * @param  {boolean} ok     ok signal for reply messages
  * @return {string}         JSON tiip message
  */
