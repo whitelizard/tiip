@@ -4,7 +4,9 @@
   "description": "TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "babel src -d lib",
+    "docgen": "jsdox lib -o docs"
   },
   "repository": {
     "type": "git",
