@@ -6,14 +6,16 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.0.8 | Yes |
-| timestamp  | Seconds since 1 Jan 1970, as String. Controlled by the server.   | String          |          | No (Yes if no clientTime) |
+| protocol   | Protocol name/version                                            | String          | tiip.0.9 | Yes |
+| timestamp  | Seconds since 1 Jan 1970, as String. Preferrably centrally controlled. | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
 | sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
-| pid        | Id of the targeted process or sub-system.                        | String          |          | No |
+| pid        | DEPRICATED. target is the new field to use instead               | String          |          | No |
+| target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
+| subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
 | arguments  | Named arguments or data.                                         | Object          |          | No |
 | payload    | List of data.                                                    | Array           |          | No |
@@ -23,7 +25,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.8"
+The name/ID of the protocol (including version). Ex: "tiip.0.9"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
@@ -50,50 +52,58 @@ Some different standard values are:
 Origin ID, with prepended nodes further along the communication chain if needed.
 
 #### pid
+DEPRICATED. Use `target`.
+
+#### target
 The targeted process or sub-system. An ID or address that the receiver can use to route the message internally.
+
+#### subTarget
+A possible sub-process to target inside the `target`. If for example `target` is an external node of some sort, and it is needed to specify a targeted process inside that.
 
 #### signal
 Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
 
 #### arguments
-The actual content that needs to be sent to the other side. Often regarded as the "arguments" to the API "function" specified in `signal`.
+Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `signal`. Not to confuse with `payload` which is actual data or content.
 
 #### payload
 Content to be sent, as a list.
 
 **Ex:**
 - Sensor values (push data from a device)
-- User records (requested from a database)
-- Notification records published on an internal bus channel for instance
+- User records (as answer on a request to a database module)
+- Notification records published on an internal bus channel
 - An error message
 - etc.
 
 #### ok
-Simple key in a reply message that indicates the outcome of a request as a boolean.
+Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
 
 #### tenant
-ID of a tenant in a multi-tenancy solution. Depending on the communication, 
+ID of a tenant in a multi-tenancy solution.
 
 ### By example
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
+    "arguments": {"channelId": "x72iuP"},
     "source": ["gpsSensor239"],
-    "arguments": {"long": 59.21625, "lat": 10.93167}
+    "payload": [{"long": 59.21625, "lat": 10.93167}]
 }
 ```
 
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "timestamp": "1387345934.702",
     "type": "req",
-    "pid": "motor",
+    "target": "g13",
+    "subTarget": "motor",
     "signal": "stop"
 }
 ```
@@ -101,10 +111,10 @@ Message from the server to a gateway that the motor should be stopped:
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.0.8",
+    "protocol": "tiip.0.9",
     "clientTime": "1387349004.221",
     "type": "req",
-    "pid": "configuration",
+    "target": "configuration",
     "signal": "updateUserDashboard",
     "arguments": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
 }
