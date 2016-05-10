@@ -13,7 +13,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
-| pid        | DEPRICATED. target is the new field to use instead               | String          |          | No |
+| pid        | DEPRECATED. target is the new field to use instead               | String          |          | No |
 | target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
 | subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
@@ -52,7 +52,7 @@ Some different standard values are:
 Origin ID, with prepended nodes further along the communication chain if needed.
 
 #### pid
-DEPRICATED. Use `target`.
+DEPRECATED. Use `target`.
 
 #### target
 The targeted process or sub-system. An ID or address that the receiver can use to route the message internally.
