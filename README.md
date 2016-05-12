@@ -28,7 +28,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 The name/ID of the protocol (including version). Ex: "tiip.0.9"
 
 #### timestamp
-Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient). 
+Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
 Handeled centrally - for instance set by the server for each messages on their arrival. See also `clientTime`.
 
 #### clientTime
@@ -121,32 +121,64 @@ Message from a web client to make a change in the configuration data of a user:
 ```
 
 ## Proposal: Server PUB/SUB API
-### Requests
+### Requests, Client to Server
 
-"=" = kept as is
+"-" ignored or not present
 
-"-" = ignored or not present
+| Keys | sub (realtime) | sub (conf changes) | unsub (realtime) | unsub (conf changes) | pub (realtime) |
+|---|---|---|---|---|---|
+| **type** | sub | sub | unsub | unsub | pub |
+| **clientTime** | - | - | - | - | *time*\*\* |
+| **timestamp** | - | - | - | - | *time* |
+| **source** | - | - | - | - | - |
+| **target** | - | conf | - | conf | - |
+| **signal** | - | - | - | - | *data* |
+| **arguments** | {"rid": *channel*, "subChannel": *subChannel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *rid*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel*, "subChannel": *subChannel*} |
+| **payload** | - | - | - | - | *data* |
 
-| Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
-|---|---|---|---|---|---|---|
-| **type** | sub | sub | unsub | unsub | pub | pub |
-| **clientTime** | - | - | - | - | = | = |
-| **timestamp** | - | - | - | - | =* | =* |
-| **source** | - | - | - | - | - | - |
-| **target** | - | *module-name* | - | *module-name* |
-| **signal** | - | - | - | - | *data* | - |
-| **arguments** | {"rid": *channel*, "subChannel": *subChannel*} | - | {"rid": *channel*, "subChannel": *subChannel*} | {"rid": *channel*} | {"rid": *channel*, "subChannel": *subChannel*} | - |
-| **payload** | - | - | - | - | - | - |
+\* Repacked as `clientTime` if `clientTime` is not present, otherwise ignored.
 
-* Repacked as `clientTime` if `clientTime` is not present, otherwise ignored.
+\*\* In case of older data (client hierarchy)
 
-### Replies
+### Replies on above
 
-| Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
-|---|---|---|---|---|---|---|
-| **type** | rep | rep | - | - | - | - |
-| **ok** | true/false | true/false | - | - | - | - |
-| **payload** | *channel/error-message* | *channel/error-message* | - | - | - | - |
+| Keys | sub (realtime) | sub (conf changes) | unsub (realtime) | unsub (conf changes) | pub (realtime) |
+|---|---|---|---|---|---|
+| **type** | rep | rep | - | - | - |
+| **ok** | true/false | true/false | - | - | - |
+| **payload** | *channel/error-message* | *channel/error-message* | - | - | - |
+
+### Messages, Server to Client
+
+| Keys | pub (realtime) | pub (conf changes) |
+|---|---|---|
+| **type** | pub | pub |
+| **clientTime** | *time* | - |
+| **timestamp** | *time* | *time* |
+| **source** | *channel* | *channel* |
+| **signal** | *data* | *data* |
+| **payload** | *data* | *data* |
+
+## Proposal: Server REQ/REP API
+### Requests, Client to Server
+
+| Keys | req |
+|---|---|
+| **type** | req |
+| **mid** | *message-id* |
+| **target** | *module-id* |
+| **subTarget** | *submodule-id* |
+| **signal** | *API-function* |
+| **arguments** | *API-function-arguments* |
+
+### Replies on above
+
+| Keys | rep |
+|---|---|
+| **type** | req |
+| **mid** | *message-id* |
+| **ok** | true/false |
+| **payload** | *data/error-message* |
 
 ## Installation
 
