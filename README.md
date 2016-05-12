@@ -120,6 +120,33 @@ Message from a web client to make a change in the configuration data of a user:
 }
 ```
 
+## Proposal: External PUB/SUB API
+### Requests
+
+"=" = kept as is
+
+"-" = ignored
+
+| Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
+|---|---|---|---|---|---|---|
+| **type** | sub | sub | unsub | unsub | pub | pub |
+| **clientTime** | - | - | - | - | = | = |
+| **timestamp** | - | - | - | - | =* | =* |
+| **source** | - | - | - | - | - | - |
+| **target** | - | *module-name* | - | *module-name* |
+| **signal** | - | - | - | - | - | - |
+| **arguments** | - | - | - | - | - | - |
+| **payload** | - | - | - | - | - | - |
+
+* Repacked as `clientTime` if `clientTime` is not present, otherwise ignored.
+
+### Replies
+
+| Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
+|---|---|---|---|---|---|---|
+| **type** | rep | rep | rep | rep | - | - |
+| **ok** | true/false | true/false | true/false | true/false | true/false | true/false |
+| **payload** | *channel/error-message* | *channel/error-message* | - | - | - | - |
 
 ## Installation
 
