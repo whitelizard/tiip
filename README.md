@@ -120,12 +120,12 @@ Message from a web client to make a change in the configuration data of a user:
 }
 ```
 
-## Proposal: External PUB/SUB API
+## Proposal: Server PUB/SUB API
 ### Requests
 
 "=" = kept as is
 
-"-" = ignored
+"-" = ignored or not present
 
 | Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
 |---|---|---|---|---|---|---|
@@ -134,8 +134,8 @@ Message from a web client to make a change in the configuration data of a user:
 | **timestamp** | - | - | - | - | =* | =* |
 | **source** | - | - | - | - | - | - |
 | **target** | - | *module-name* | - | *module-name* |
-| **signal** | - | - | - | - | - | - |
-| **arguments** | - | - | - | - | - | - |
+| **signal** | - | - | - | - | *data* | - |
+| **arguments** | {"rid": *channel*, "subChannel": *subChannel*} | - | {"rid": *channel*, "subChannel": *subChannel*} | {"rid": *channel*} | {"rid": *channel*, "subChannel": *subChannel*} | - |
 | **payload** | - | - | - | - | - | - |
 
 * Repacked as `clientTime` if `clientTime` is not present, otherwise ignored.
@@ -144,8 +144,8 @@ Message from a web client to make a change in the configuration data of a user:
 
 | Keys | sub (realtime) | sub (changes) | unsub (realtime) | unsub (changes) | pub (realtime) | pub (changes) |
 |---|---|---|---|---|---|---|
-| **type** | rep | rep | rep | rep | - | - |
-| **ok** | true/false | true/false | true/false | true/false | true/false | true/false |
+| **type** | rep | rep | - | - | - | - |
+| **ok** | true/false | true/false | - | - | - | - |
 | **payload** | *channel/error-message* | *channel/error-message* | - | - | - | - |
 
 ## Installation
