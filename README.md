@@ -180,18 +180,3 @@ Message from a web client to make a change in the configuration data of a user:
 | **ok** | true/false |
 | **payload** | *data/error-message* |
 
-## Installation
-
-```shell
-npm install tiip
-```
-
-The package supports use of require.
-
-## Test
-
-Karma is used for unit testing. To run the test install karma and dependencies thrue Node package manager with
-
-```shell
-gulp test
-```
