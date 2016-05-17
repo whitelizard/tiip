@@ -128,17 +128,15 @@ Message from a web client to make a change in the configuration data of a user:
 | Keys | sub (realtime) | sub (conf changes) | unsub (realtime) | unsub (conf changes) | pub (realtime) |
 |---|---|---|---|---|---|
 | **type** | sub | sub | unsub | unsub | pub |
-| **clientTime** | - | - | - | - | *time*\*\* |
+| **clientTime** | - | - | - | - | *time*\* |
 | **timestamp** | - | - | - | - | *time* |
 | **source** | - | - | - | - | - |
 | **target** | - | conf | - | conf | - |
 | **signal** | - | - | - | - | *data* |
-| **arguments** | {"rid": *channel*, "subChannel": *subChannel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *rid*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel*, "subChannel": *subChannel*} |
+| **arguments** | {"rid": *channel-record-id*, "subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel-record-id*, "subChannel": *sub-channel*} |
 | **payload** | - | - | - | - | *data* |
 
-\* Repacked as `clientTime` if `clientTime` is not present, otherwise ignored.
-
-\*\* In case of older data (client hierarchy)
+\* In case of older data and/or client hierarchy
 
 ### Replies on above
 
