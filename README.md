@@ -178,5 +178,6 @@ Message from a web client to make a change in the configuration data of a user:
 | **type** | rep |
 | **mid** | *mirrored-message-id* |
 | **ok** | true/false |
+| **signal** | *error-code* |
 | **payload** | *data/error-message* |
 
