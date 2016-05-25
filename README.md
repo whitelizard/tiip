@@ -6,14 +6,13 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.0.9 | Yes |
+| protocol   | Protocol name/version                                            | String          | tiip.1.0 | Yes |
 | timestamp  | Seconds since 1 Jan 1970, as String. Preferrably centrally controlled. | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
 | sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
-| pid        | DEPRECATED. target is the new field to use instead               | String          |          | No |
 | target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
 | subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
