@@ -50,9 +50,6 @@ Some different standard values are:
 #### source
 Origin ID, with prepended nodes further along the communication chain if needed.
 
-#### pid
-DEPRECATED. Use `target`.
-
 #### target
 The targeted process or sub-system. An ID or address that the receiver can use to route the message internally.
 
