@@ -24,7 +24,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.9"
+The name/ID of the protocol (including version). Ex: "tiip.1.0"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
@@ -82,7 +82,7 @@ ID of a tenant in a multi-tenancy solution.
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip1.0",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
@@ -95,7 +95,7 @@ A gateway sends position data to the server:
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.1.0",
     "timestamp": "1387345934.702",
     "type": "req",
     "target": "g13",
@@ -107,7 +107,7 @@ Message from the server to a gateway that the motor should be stopped:
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.1.0",
     "clientTime": "1387349004.221",
     "type": "req",
     "target": "configuration",
