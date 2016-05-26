@@ -126,7 +126,7 @@ Message from a web client to make a change in the configuration data of a user:
 | **type** | sub | sub | unsub | unsub | pub |
 | **clientTime** | - | - | - | - | *time*\* |
 | **timestamp** | - | - | - | - | *time* |
-| **source** | - | - | - | - | - |
+| **source** | - | - | - | - | *source(s)* |
 | **target** | - | conf | - | conf | - |
 | **signal** | - | - | - | - | *data* |
 | **arguments** | {"rid": *channel-record-id*, "subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel-record-id*, "subChannel": *sub-channel*} |
