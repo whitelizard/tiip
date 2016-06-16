@@ -127,9 +127,7 @@ Message from a web client to make a change in the configuration data of a user:
 | **mid** | *message-id* |
 | **arguments** | *Init-arguments (id, password, ...)* |
 
-Further, **target**, **signal** and **payload** can be used for specific purposes. 
-*Example*
-Using **target** to target a certain client controller or session type.
+Further, **target**, **signal** and **payload** can be used for specific purposes. As an example, **target** can be used to target the use of a certain client controller or session type.
 
 ## Proposal: Server PUB/SUB API
 ### Requests, Client to Server
