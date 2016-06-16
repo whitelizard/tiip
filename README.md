@@ -82,7 +82,7 @@ ID of a tenant in a multi-tenancy solution.
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip1.0",
+    "protocol": "tiip.1.0",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
@@ -115,6 +115,21 @@ Message from a web client to make a change in the configuration data of a user:
     "arguments": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
 }
 ```
+
+## Proposal: Server Init API
+### Requests, Client to Server
+
+"-" ignored or not present
+
+| Keys | init |
+|---|---|
+| **type** | init |
+| **mid** | *message-id* |
+| **arguments** | *Init-arguments (id, password, ...) * |
+
+Further, **target**, **signal** and **payload** can be used for specific purposes. 
+*Example*
+Using **target** to target a certain client controller or session type.
 
 ## Proposal: Server PUB/SUB API
 ### Requests, Client to Server
