@@ -125,7 +125,7 @@ Message from a web client to make a change in the configuration data of a user:
 |---|---|
 | **type** | init |
 | **mid** | *message-id* |
-| **arguments** | *Init-arguments (id, password, ...) * |
+| **arguments** | *Init-arguments (id, password, ...)* |
 
 Further, **target**, **signal** and **payload** can be used for specific purposes. 
 *Example*
