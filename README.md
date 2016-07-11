@@ -15,6 +15,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
 | subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
+| channel    | Data channel in case of pub/sub for instance.                    | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
 | arguments  | Named arguments or data.                                         | Object          |          | No |
 | payload    | List of data.                                                    | Array           |          | No |
@@ -55,6 +56,9 @@ The targeted process or sub-system. An ID or address that the receiver can use t
 
 #### subTarget
 A possible sub-process to target inside the `target`. If for example `target` is an external node of some sort, and it is needed to specify a targeted process inside that.
+
+#### channel
+The data channel, as a string, that carries the message. Suitable in the pub/sub pattern.
 
 #### signal
 Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
@@ -187,4 +191,3 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **ok** | true/false |
 | **signal** | *error-code* |
 | **payload** | *data/error-message* |
-
