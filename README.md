@@ -12,15 +12,15 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | mid        | Message ID.                                                      | String          |          | No |
 | sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
+| ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
+| tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
 | source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
 | target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
 | subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
+| arguments  | Named arguments or data.                                         | Object          |          | No |
 | channel    | Data channel in case of pub/sub for instance.                    | String          |          | No |
 | signal     | The intended operation or command.                               | String          |          | No |
-| arguments  | Named arguments or data.                                         | Object          |          | No |
 | payload    | List of data.                                                    | Array           |          | No |
-| ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
-| tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
 
 ### Key details
 
@@ -143,10 +143,12 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **type** | sub | sub | unsub | unsub | pub |
 | **clientTime** | - | - | - | - | *time*\* |
 | **timestamp** | - | - | - | - | *time* |
+| **tenant** | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id*  |
 | **source** | - | - | - | - | *source(s)* |
 | **target** | - | conf | - | conf | - |
+| **arguments** | {"subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | - | - | {"subChannel": *sub-channel*} |
+| **channel** | *channel-record-id* | - | *channel* | *channel* | *channel-record-id* |
 | **signal** | - | - | - | - | *data* |
-| **arguments** | {"rid": *channel-record-id*, "subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel-record-id*, "subChannel": *sub-channel*} |
 | **payload** | - | - | - | - | *data* |
 
 \* In case of older data and/or client hierarchy
@@ -166,7 +168,8 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **type** | pub | pub |
 | **clientTime** | *time* | - |
 | **timestamp** | *time* | *time* |
-| **source** | *channel* | *channel* |
+| **source** | *source(s)* | *source(s)* |
+| **channel** | *channel* | *channel* |
 | **signal** | *data* | *data* |
 | **payload** | *data* | *data* |
 
@@ -179,8 +182,8 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **mid** | *message-id* |
 | **target** | *module-id* |
 | **subTarget** | *submodule-id* |
-| **signal** | *API-function* |
 | **arguments** | *API-function-arguments* |
+| **signal** | *API-function* |
 
 ### Replies on above
 
