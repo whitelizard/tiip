@@ -48,6 +48,12 @@ Some different standard values are:
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
 - create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if desired.
 
+#### ok
+Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
+
+#### tenant
+ID of a tenant in a multi-tenancy solution.
+
 #### source
 Origin ID, with prepended nodes further along the communication chain if needed.
 
@@ -57,14 +63,14 @@ The targeted process or sub-system. An ID or address that the receiver can use t
 #### subTarget
 A possible sub-process to target inside the `target`. If for example `target` is an external node of some sort, and it is needed to specify a targeted process inside that.
 
+#### arguments
+Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `signal`. Not to confuse with `payload` which is actual data or content.
+
 #### channel
 The data channel, as a string, that carries the message. Suitable in the pub/sub pattern.
 
 #### signal
 Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
-
-#### arguments
-Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `signal`. Not to confuse with `payload` which is actual data or content.
 
 #### payload
 Content to be sent, as a list.
@@ -75,12 +81,6 @@ Content to be sent, as a list.
 - Notification records published on an internal bus channel
 - An error message
 - etc.
-
-#### ok
-Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
-
-#### tenant
-ID of a tenant in a multi-tenancy solution.
 
 ### By example
 A gateway sends position data to the server:
@@ -180,6 +180,7 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 |---|---|
 | **type** | req |
 | **mid** | *message-id* |
+| **tenant** | *tenant-id* |
 | **target** | *module-id* |
 | **subTarget** | *submodule-id* |
 | **arguments** | *API-function-arguments* |
