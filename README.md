@@ -6,26 +6,26 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 
 | Key | Description | Json data type | Valid values | Mandatory |
 | --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.0.9 | Yes |
+| protocol   | Protocol name/version                                            | String          | tiip.1.0 | Yes |
 | timestamp  | Seconds since 1 Jan 1970, as String. Preferrably centrally controlled. | String          |          | No (Yes if no clientTime) |
 | clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
 | mid        | Message ID.                                                      | String          |          | No |
 | sid        | Session ID.                                                      | String          |          | No |
 | type       | Message type (see recommended values in details below).          | String          |          | No |
-| source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
-| pid        | DEPRECATED. target is the new field to use instead               | String          |          | No |
-| target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
-| subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
-| signal     | The intended operation or command.                               | String          |          | No |
-| arguments  | Named arguments or data.                                         | Object          |          | No |
-| payload    | List of data.                                                    | Array           |          | No |
 | ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
 | tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
+| source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
+| target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
+| subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
+| arguments  | Named arguments or data.                                         | Object          |          | No |
+| channel    | Data channel in case of pub/sub for instance.                    | String          |          | No |
+| signal     | The intended operation or command.                               | String          |          | No |
+| payload    | List of data.                                                    | Array           |          | No |
 
 ### Key details
 
 #### protocol
-The name/ID of the protocol (including version). Ex: "tiip.0.9"
+The name/ID of the protocol (including version). Ex: "tiip.1.0"
 
 #### timestamp
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
@@ -48,11 +48,14 @@ Some different standard values are:
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
 - create, read, update, delete: The standard "CRUD": the four basic functions of persistant storage, to use instead of req if desired.
 
+#### ok
+Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
+
+#### tenant
+ID of a tenant in a multi-tenancy solution.
+
 #### source
 Origin ID, with prepended nodes further along the communication chain if needed.
-
-#### pid
-DEPRECATED. Use `target`.
 
 #### target
 The targeted process or sub-system. An ID or address that the receiver can use to route the message internally.
@@ -60,11 +63,14 @@ The targeted process or sub-system. An ID or address that the receiver can use t
 #### subTarget
 A possible sub-process to target inside the `target`. If for example `target` is an external node of some sort, and it is needed to specify a targeted process inside that.
 
-#### signal
-Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
-
 #### arguments
 Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `signal`. Not to confuse with `payload` which is actual data or content.
+
+#### channel
+The data channel, as a string, that carries the message. Suitable in the pub/sub pattern.
+
+#### signal
+Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
 
 #### payload
 Content to be sent, as a list.
@@ -76,17 +82,11 @@ Content to be sent, as a list.
 - An error message
 - etc.
 
-#### ok
-Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
-
-#### tenant
-ID of a tenant in a multi-tenancy solution.
-
 ### By example
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.1.0",
     "clientTime": "1379921889.4",
     "type": "pub",
     "signal": "updatePosition",
@@ -99,7 +99,7 @@ A gateway sends position data to the server:
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.1.0",
     "timestamp": "1387345934.702",
     "type": "req",
     "target": "g13",
@@ -111,7 +111,7 @@ Message from the server to a gateway that the motor should be stopped:
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.0.9",
+    "protocol": "tiip.1.0",
     "clientTime": "1387349004.221",
     "type": "req",
     "target": "configuration",
@@ -119,6 +119,19 @@ Message from a web client to make a change in the configuration data of a user:
     "arguments": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
 }
 ```
+
+## Proposal: Server Init API
+### Requests, Client to Server
+
+"-" ignored or not present
+
+| Keys | init |
+|---|---|
+| **type** | init |
+| **mid** | *message-id* |
+| **arguments** | *Init-arguments (id, password, ...)* |
+
+Further, **target**, **signal** and **payload** can be used for specific purposes. As an example, **target** can be used to target the use of a certain client controller or session type.
 
 ## Proposal: Server PUB/SUB API
 ### Requests, Client to Server
@@ -130,10 +143,12 @@ Message from a web client to make a change in the configuration data of a user:
 | **type** | sub | sub | unsub | unsub | pub |
 | **clientTime** | - | - | - | - | *time*\* |
 | **timestamp** | - | - | - | - | *time* |
+| **tenant** | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id*  |
 | **source** | - | - | - | - | *source(s)* |
 | **target** | - | conf | - | conf | - |
+| **arguments** | {"subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | - | - | {"subChannel": *sub-channel*} |
+| **channel** | *channel-record-id* | - | *channel* | *channel* | *channel-record-id* |
 | **signal** | - | - | - | - | *data* |
-| **arguments** | {"rid": *channel-record-id*, "subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | {"channel": *channel*} | {"channel": *channel*} | {"rid": *channel-record-id*, "subChannel": *sub-channel*} |
 | **payload** | - | - | - | - | *data* |
 
 \* In case of older data and/or client hierarchy
@@ -153,7 +168,8 @@ Message from a web client to make a change in the configuration data of a user:
 | **type** | pub | pub |
 | **clientTime** | *time* | - |
 | **timestamp** | *time* | *time* |
-| **source** | *channel* | *channel* |
+| **source** | *source(s)* | *source(s)* |
+| **channel** | *channel* | *channel* |
 | **signal** | *data* | *data* |
 | **payload** | *data* | *data* |
 
@@ -164,10 +180,11 @@ Message from a web client to make a change in the configuration data of a user:
 |---|---|
 | **type** | req |
 | **mid** | *message-id* |
+| **tenant** | *tenant-id* |
 | **target** | *module-id* |
 | **subTarget** | *submodule-id* |
-| **signal** | *API-function* |
 | **arguments** | *API-function-arguments* |
+| **signal** | *API-function* |
 
 ### Replies on above
 
@@ -178,4 +195,3 @@ Message from a web client to make a change in the configuration data of a user:
 | **ok** | true/false |
 | **signal** | *error-code* |
 | **payload** | *data/error-message* |
-
