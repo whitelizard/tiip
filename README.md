@@ -143,6 +143,7 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **type** | sub | sub | unsub | unsub | pub |
 | **clientTime** | - | - | - | - | *time*\* |
 | **timestamp** | - | - | - | - | *time* |
+| **mid** | *mid* | *mid* | - | - | - |
 | **tenant** | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id*  |
 | **source** | - | - | - | - | *source(s)* |
 | **target** | - | conf | - | conf | - |
@@ -158,8 +159,10 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | Keys | sub (realtime) | sub (conf changes) | unsub (realtime) | unsub (conf changes) | pub (realtime) |
 |---|---|---|---|---|---|
 | **type** | rep | rep | - | - | - |
+| **mid** | *mid* | *mid* | - | - | - |
 | **ok** | true/false | true/false | - | - | - |
-| **payload** | *channel/error-message* | *channel/error-message* | - | - | - |
+| **channel** | *channel* | *channel* | - | - | - |
+| **payload** | *error-message* | *error-message* | - | - | - |
 
 ### Messages, Server to Client
 
