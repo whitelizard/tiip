@@ -2,47 +2,46 @@ TIIP
 ====
 Thin Industrial Internet Protocol
 
-TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support API creation.
+TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support custom API creation.
 
-| Key | Description | Json data type | Valid values | Mandatory |
-| --- | ----------- | -------------- | ------------ | --------- |
-| protocol   | Protocol name/version                                            | String          | tiip.1.0 | Yes |
-| timestamp  | Seconds since 1 Jan 1970, as String. Preferrably centrally controlled. | String          |          | No (Yes if no clientTime) |
-| clientTime | Timestamp from client. Seconds since 1 Jan 1970, as String.      | String          |          | No (Yes if no timestamp) |
-| mid        | Message ID.                                                      | String          |          | No |
-| sid        | Session ID.                                                      | String          |          | No |
-| type       | Message type (see recommended values in details below).          | String          |          | No |
-| ok         | Boolean indicating success or failure. (Only for replies)        | Boolean         |          | No |
-| tenant     | ID of a tenant in a multi-tenancy solution.                      | String          |          | No |
-| source     | ID(s) of the origin module(s) or node(s).                        | Array of String |          | No |
-| target     | Id of the *targeted* process or sub-system.                      | String          |          | No |
-| subTarget  | Id of a possible sub-process to target.                          | String          |          | No |
-| arguments  | Named arguments or data.                                         | Object          |          | No |
-| channel    | Data channel in case of pub/sub for instance.                    | String          |          | No |
-| signal     | The intended operation or command.                               | String          |          | No |
-| payload    | List of data.                                                    | Array           |          | No |
+| Key | For | Description | Json data type | Valid values | Mandatory |
+| --- | --- | ----------- | -------------- | ------------ | --------- |
+| pv   | Protocol version | Protocol name & version                         | String          | tiip.2.0 | Yes |
+| ts   | Timestamp | Seconds since 1 Jan 1970, as String. Preferably centrally controlled. | String | | No (Yes if no ct) |
+| ct   | Client timestamp | Timestamp from client. Seconds since 1 Jan 1970, as String.    | String | | No (Yes if no ts) |
+| mid  | Message ID | Can, in a req/rep system, be returned by the replier. | String          | | No |
+| sid  | Session ID | Some session token.                                   | String          | | No |
+| type | Type | See recommended values in details below.                    | String          | | No |
+| ok   | Success/Failure | Boolean indicating success or failure. (Only for replies) | Boolean | | No |
+| ten  | Tenant | ID of a **tenant** in a multi-tenancy solution.           | String          | | No |
+| src  | Source(s) | ID(s) of the origin module(s) or node(s)               | Array of String | | No |
+| targ | Target | ID(s) of process(es) or sub-system(s).                    | Array of String | | No |
+| arg  | Arguments | Named arguments or data.                               | Object          | | No |
+| ch   | Data channel | In case of pub/sub for instance.                    | String          | | No |
+| sig  | Signal | The intended operation or command.                        | String          | | No |
+| pl   | Payload | A list of data.                                          | Array           | | No |
 
 ### Key details
 
-#### protocol
-The name/ID of the protocol (including version). Ex: "tiip.1.0"
+#### pv
+The name/ID of the pv (including version). Ex: "tiip.2.0"
 
-#### timestamp
+#### ts
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
-Handeled centrally - for instance set by the server for each messages on their arrival. See also `clientTime`.
+Handeled centrally - for instance set by the server for each messages on their arrival. See also `ct`.
 
-#### clientTime
-The timestamp set by clients (devices) when a message is constructed. This is separate to `timestamp` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
+#### ct
+The timestamp set by clients (devices) when a message is constructed. This is separate to `ts` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
 
 #### mid
-Message ID. To identify an answer to a request for instance, in asyncronous communication.
+Message ID. To identify an answer to a request for instance, in asynchronous communication.
 
 #### sid
 Session ID. To identify a session in case of non-implicit sessions.
 
 #### type
 Some different standard values are:
-- **init, kill**: Messages for persistant connections, a "login" message (answered with *rep*) and a disconnect message.
+- **init, kill**: Messages for persistent connections, a "login" message (answered with *rep*) and a disconnect message.
 - **req, rep**: Request-reply pattern.
 - **sub**: Publish-subscribe pattern: Subscription request.
 - **pub, unsub**: Publish-subscribe pattern: Publication and unsubscribe messages (no replies).
@@ -51,28 +50,25 @@ Some different standard values are:
 #### ok
 Simple boolean key in reply messages only, that indicates the outcome - if it was successful or failed.
 
-#### tenant
+#### ten
 ID of a tenant in a multi-tenancy solution.
 
-#### source
+#### src
 Origin ID, with prepended nodes further along the communication chain if needed.
 
-#### target
-The targeted process or sub-system. An ID or address that the receiver can use to route the message internally.
+#### targ
+The targeted process(es) or sub-system(s). Specifically an array of IDs that the receiver can use to route the message internally.
 
-#### subTarget
-A possible sub-process to target inside the `target`. If for example `target` is an external node of some sort, and it is needed to specify a targeted process inside that.
+#### arg
+Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `sig`. Not to confuse with `pl` which is actual data or content.
 
-#### arguments
-Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `signal`. Not to confuse with `payload` which is actual data or content.
+#### ch
+The data channel, as a string, that carries the data. Suitable in the pub/sub pattern.
 
-#### channel
-The data channel, as a string, that carries the message. Suitable in the pub/sub pattern.
+#### sig
+Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`arg` contains the function's "arguments".)
 
-#### signal
-Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`payload` contains the functions "arguments".)
-
-#### payload
+#### pl
 Content to be sent, as a list.
 
 **Ex:**
@@ -80,43 +76,41 @@ Content to be sent, as a list.
 - User records (as answer on a request to a database module)
 - Notification records published on an internal bus channel
 - An error message
-- etc.
 
 ### By example
 A gateway sends position data to the server:
 ```json
 {
-    "protocol": "tiip.1.0",
-    "clientTime": "1379921889.4",
+    "pv": "tiip.2.0",
+    "ts": "1379921889.4",
     "type": "pub",
-    "signal": "updatePosition",
-    "arguments": {"channelId": "x72iuP"},
-    "source": ["gpsSensor239"],
-    "payload": [{"long": 59.21625, "lat": 10.93167}]
+    "sig": "updatePosition",
+    "arg": {"channelId": "x72iuP"},
+    "src": ["gpsSensor239"],
+    "pl": [{"long": 59.21625, "lat": 10.93167}]
 }
 ```
 
 Message from the server to a gateway that the motor should be stopped:
 ```json
 {
-    "protocol": "tiip.1.0",
-    "timestamp": "1387345934.702",
+    "pv": "tiip.2.0",
+    "ts": "1387345934.702",
     "type": "req",
-    "target": "g13",
-    "subTarget": "motor",
-    "signal": "stop"
+    "targ": ["g13", "motor"],
+    "sig": "stop"
 }
 ```
 
 Message from a web client to make a change in the configuration data of a user:
 ```json
 {
-    "protocol": "tiip.1.0",
-    "clientTime": "1387349004.221",
+    "pv": "tiip.2.0",
+    "ts": "1387349004.221",
     "type": "req",
-    "target": "configuration",
-    "signal": "updateUserDashboard",
-    "arguments": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
+    "targ": ["configuration"],
+    "sig": "updateUserDashboard",
+    "arg": {"id": "4Xd0hN3z", "widgets": ["map", "temperature", "alarms"]}
 }
 ```
 
@@ -129,9 +123,9 @@ Message from a web client to make a change in the configuration data of a user:
 |---|---|
 | **type** | init |
 | **mid** | *message-id* |
-| **arguments** | *Init-arguments (id, password, ...)* |
+| **arg** | *Init-arguments (id, password, ...)* |
 
-Further, **target**, **signal** and **payload** can be used for specific purposes. As an example, **target** can be used to target the use of a certain client controller or session type.
+Further, **targ**, **sig** and **pl** can be used for specific purposes. As an example, **targ** can be used to target the use of a certain client controller or session type.
 
 ## Proposal: Server PUB/SUB API
 ### Requests, Client to Server
@@ -141,15 +135,15 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | Keys | sub (realtime) | sub (conf changes) | unsub (realtime) | unsub (conf changes) | pub (realtime) |
 |---|---|---|---|---|---|
 | **type** | sub | sub | unsub | unsub | pub |
-| **clientTime** | - | - | - | - | *time*\* |
-| **timestamp** | - | - | - | - | *time* |
-| **tenant** | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id*  |
-| **source** | - | - | - | - | *source(s)* |
-| **target** | - | conf | - | conf | - |
-| **arguments** | {"subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | - | - | {"subChannel": *sub-channel*} |
-| **channel** | *channel-record-id* | - | *channel* | *channel* | *channel-record-id* |
-| **signal** | - | - | - | - | *data* |
-| **payload** | - | - | - | - | *data* |
+| **ct** | - | - | - | - | *time*\* |
+| **ts** | - | - | - | - | *time* |
+| **ten** | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id* | *tenant-id*  |
+| **src** | - | - | - | - | *source(s)* |
+| **targ** | - | conf | - | conf | - |
+| **arg** | {"subChannel": *sub-channel*} | {"action": *CUD*, "entityClass": *entity-class*, "rid": *record-id*} | - | - | {"subChannel": *sub-channel*} |
+| **ch** | *channel-record-id* | - | *channel* | *channel* | *channel-record-id* |
+| **sig** | - | - | - | - | *data* |
+| **pl** | - | - | - | - | *data* |
 
 \* In case of older data and/or client hierarchy
 
@@ -159,19 +153,19 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 |---|---|---|---|---|---|
 | **type** | rep | rep | - | - | - |
 | **ok** | true/false | true/false | - | - | - |
-| **payload** | *channel/error-message* | *channel/error-message* | - | - | - |
+| **pl** | *channel/error-message* | *channel/error-message* | - | - | - |
 
 ### Messages, Server to Client
 
 | Keys | pub (realtime) | pub (conf changes) |
 |---|---|---|
 | **type** | pub | pub |
-| **clientTime** | *time* | - |
-| **timestamp** | *time* | *time* |
-| **source** | *source(s)* | *source(s)* |
-| **channel** | *channel* | *channel* |
-| **signal** | *data* | *data* |
-| **payload** | *data* | *data* |
+| **ct** | *time* | - |
+| **ts** | *time* | *time* |
+| **src** | *source(s)* | *source(s)* |
+| **ch** | *channel* | *channel* |
+| **sig** | *data* | *data* |
+| **pl** | *data* | *data* |
 
 ## Proposal: Server REQ/REP API
 ### Requests, Client to Server
@@ -180,11 +174,10 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 |---|---|
 | **type** | req |
 | **mid** | *message-id* |
-| **tenant** | *tenant-id* |
-| **target** | *module-id* |
-| **subTarget** | *submodule-id* |
-| **arguments** | *API-function-arguments* |
-| **signal** | *API-function* |
+| **ten** | *tenant-id* |
+| **targ** | *module-id* |
+| **arg** | *API-function-arguments* |
+| **sig** | *API-function* |
 
 ### Replies on above
 
@@ -193,5 +186,5 @@ Further, **target**, **signal** and **payload** can be used for specific purpose
 | **type** | rep |
 | **mid** | *mirrored-message-id* |
 | **ok** | true/false |
-| **signal** | *error-code* |
-| **payload** | *data/error-message* |
+| **sig** | *error-code* |
+| **pl** | *data/error-message* |
