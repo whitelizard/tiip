@@ -4,40 +4,40 @@ Thin Industrial Internet Protocol
 
 TIIP is a wire protocol using JSON as its infoset. It is created for lightweight messaging in IoT solutions. It is loosely defined to support custom API creation.
 
-| Key | For | Description | Json data type | Valid values | Mandatory |
-| --- | --- | ----------- | -------------- | ------------ | --------- |
-| pv   | Protocol version | Protocol name & version                         | String          | tiip.2.0 | Yes |
-| ts   | Timestamp | Seconds since 1 Jan 1970, as String. Preferably centrally controlled. | String | | No (Yes if no ct) |
-| ct   | Client timestamp | Timestamp from client. Seconds since 1 Jan 1970, as String.    | String | | No (Yes if no ts) |
-| mid  | Message ID | Can, in a req/rep system, be returned by the replier. | String          | | No |
-| sid  | Session ID | Some session token.                                   | String          | | No |
-| type | Type | See recommended values in details below.                    | String          | | No |
-| ok   | Success/Failure | Boolean indicating success or failure. (Only for replies) | Boolean | | No |
-| ten  | Tenant | ID of a **tenant** in a multi-tenancy solution.           | String          | | No |
-| src  | Source(s) | ID(s) of the origin module(s) or node(s)               | Array of String | | No |
-| targ | Target | ID(s) of process(es) or sub-system(s).                    | Array of String | | No |
-| arg  | Arguments | Named arguments or data.                               | Object          | | No |
-| ch   | Data channel | In case of pub/sub for instance.                    | String          | | No |
-| sig  | Signal | The intended operation or command.                        | String          | | No |
-| pl   | Payload | A list of data.                                          | Array           | | No |
+| Key | For | Json data type | Valid values | Mandatory |
+| --- | --- | -------------- | ------------ | --------- |
+| pv   | Protocol version | String          | tiip.2.0 | Yes |
+| ts   | Timestamp        | String          | | No (Yes if no ct) |
+| ct   | Client timestamp | String          | | No (Yes if no ts) |
+| mid  | Message ID       | String          | | No |
+| sid  | Session ID       | String          | | No |
+| type | Type             | String          | | No |
+| ok   | Success/Failure  | Boolean         | | No |
+| ten  | Tenant           | String          | | No |
+| src  | Source(s)        | Array of String | | No |
+| targ | Target           | Array of String | | No |
+| arg  | Arguments        | Object          | | No |
+| ch   | Data channel     | String          | | No |
+| sig  | Signal           | String          | | No |
+| pl   | Payload          | Array           | | No |
 
 ### Key details
 
 #### pv
-The name/ID of the pv (including version). Ex: "tiip.2.0"
+Protocol name & version. Ex: "tiip.2.0"
 
 #### ts
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
 Handeled centrally - for instance set by the server for each messages on their arrival. See also `ct`.
 
 #### ct
-The timestamp set by clients (devices) when a message is constructed. This is separate to `ts` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
+Seconds since 1 Jan 1970, as String. The timestamp set by clients (devices) when a message is constructed. This is separate to `ts` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
 
 #### mid
 Message ID. To identify an answer to a request for instance, in asynchronous communication.
 
 #### sid
-Session ID. To identify a session in case of non-implicit sessions.
+Session ID/token. To identify a session in case of non-implicit sessions.
 
 #### type
 Some different standard values are:
@@ -54,22 +54,22 @@ Simple boolean key in reply messages only, that indicates the outcome - if it wa
 ID of a tenant in a multi-tenancy solution.
 
 #### src
-Origin ID, with prepended nodes further along the communication chain if needed.
+Path of ID(s) of the origin module(s) or node(s).
 
 #### targ
 The targeted process(es) or sub-system(s). Specifically an array of IDs that the receiver can use to route the message internally.
 
 #### arg
-Parameters/switches to specify the message even deeper. Often regarded as the "arguments" to the requested API "function" specified in `sig`. Not to confuse with `pl` which is actual data or content.
+Parameters/switches to specify a request even deeper. Often regarded as the "arguments" to the requested API "function" specified in `sig`. Not to confuse with `pl` which is actual data or content.
 
 #### ch
 The data channel, as a string, that carries the data. Suitable in the pub/sub pattern.
 
 #### sig
-Meant to be used as the "function" of the API between 2 communication nodes -- the command to the receiver. (`arg` contains the function's "arguments".)
+Meant to be used as the "function" of the API between 2 communication nodes -- the operation or command to the receiver. (`arg` contains the function's "arguments".)
 
 #### pl
-Content to be sent, as a list.
+Actual content or data to be sent, as a list.
 
 **Ex:**
 - Sensor values (push data from a device)
