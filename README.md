@@ -28,7 +28,8 @@ Protocol name & version. Ex: "tiip.2.0"
 
 #### ts
 Seconds since 1 Jan 1970, as String. Include as many decimals as needed for increased accuracy (millisecond accuracy is often convenient).
-Tip: Handle centrally, for instance, let the server set it for each messages on their arrival. See also `ct`.
+
+**Tip:** Handle centrally, for instance, let the server set it for each messages on their arrival. See also `ct`.
 
 #### ct
 Seconds since 1 Jan 1970, as String. Field to use to save the message creation time according to the client. This is separate to `ts` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
