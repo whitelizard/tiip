@@ -7,8 +7,8 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | Key | For | Json data type | Valid values | Mandatory |
 | --- | --- | -------------- | ------------ | --------- |
 | pv   | Protocol version | String          | tiip.2.0 | Yes |
-| ts   | Timestamp        | String          | | No (Yes if no ct) |
-| ct   | Client timestamp | String          | | No (Yes if no ts) |
+| ts   | Timestamp        | String          | | Yes |
+| ct   | Client timestamp | String          | | No |
 | mid  | Message ID       | String          | | No |
 | sid  | Session ID       | String          | | No |
 | type | Type             | String          | | No |
