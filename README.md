@@ -8,7 +8,7 @@ TIIP is a wire protocol using JSON as its infoset. It is created for lightweight
 | ---- | ---------------- | --------------- | ------------ | --------- |
 | pv   | Protocol version | String          | tiip.3.0     | Yes       |
 | ts   | Timestamp        | String          |              | Yes       |
-| ct   | Client timestamp | String          |              | No        |
+| lat  | Latency          | String          |              | No        |
 | mid  | Message ID       | String          |              | No        |
 | sid  | Session ID       | String          |              | No        |
 | type | Type             | String          |              | No        |
@@ -31,12 +31,9 @@ Protocol name & version. Ex: "tiip.3.0"
 
 The timestamp of the message as an ISO 8601 string. Include as many decimals as needed for increased accuracy. Typical might be milliseconds, but some applications might require higher precision.
 
-**Tip:** Handle centrally, for instance, let the server set it for each messages on their arrival. See also `ct`.
+#### lat
 
-#### ct
-
-The client timestamp of the message as an ISO 8601 string. Include as many decimals as needed for increased accuracy.
-This field can be used to save the message creation time according to the client. This is separate to `ts` because it can not be trusted by the central point (server) to be correct or same as every other message creator in the system.
+Latency or time difference of the message in seconds as string. Typically registered by a central server as the message arrives by comparing ts with the current time of the centralized node.
 
 #### mid
 
@@ -159,7 +156,6 @@ Further, **targ**, **sig** and **pl** can be used for specific purposes. As an e
 | Keys     | sub (realtime)                | sub (conf changes)                                                   | unsub (realtime) | unsub (conf changes) | pub (realtime)                |
 | -------- | ----------------------------- | -------------------------------------------------------------------- | ---------------- | -------------------- | ----------------------------- |
 | **type** | sub                           | sub                                                                  | unsub            | unsub                | pub                           |
-| **ct**   | -                             | -                                                                    | -                | -                    | _time_\*                      |
 | **ts**   | -                             | -                                                                    | -                | -                    | _time_                        |
 | **ten**  | _tenant-id_                   | _tenant-id_                                                          | _tenant-id_      | _tenant-id_          | _tenant-id_                   |
 | **src**  | -                             | -                                                                    | -                | -                    | _source(s)_                   |
@@ -168,8 +164,6 @@ Further, **targ**, **sig** and **pl** can be used for specific purposes. As an e
 | **ch**   | _channel-record-id_           | -                                                                    | _channel_        | _channel_            | _channel-record-id_           |
 | **sig**  | -                             | -                                                                    | -                | -                    | _data_                        |
 | **pl**   | -                             | -                                                                    | -                | -                    | _data_                        |
-
-\* In case of older data and/or client hierarchy
 
 ### Replies on above
 
@@ -184,12 +178,13 @@ Further, **targ**, **sig** and **pl** can be used for specific purposes. As an e
 | Keys     | pub (realtime) | pub (conf changes) |
 | -------- | -------------- | ------------------ |
 | **type** | pub            | pub                |
-| **ct**   | _time_         | -                  |
 | **ts**   | _time_         | _time_             |
 | **src**  | _source(s)_    | _source(s)_        |
 | **ch**   | _channel_      | _channel_          |
 | **sig**  | _data_         | _data_             |
 | **pl**   | _data_         | _data_             |
+
+Latency (lat) can be appended to the message as it reaches a server or central message brokering system.
 
 ## Proposal: Server REQ/REP API
 
@@ -218,4 +213,6 @@ Further, **targ**, **sig** and **pl** can be used for specific purposes. As an e
 
 ## 3.0
 
-- Timestamps updated to ISO 8601 (earlier epoch time).
+- ct renamed to ts and old ts removed.
+- lat (latency) added.
+- Timestamp updated to ISO 8601 (earlier epoch time).
