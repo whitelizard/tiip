@@ -29,7 +29,16 @@ Protocol name & version. Ex: "tiip.3.0"
 
 #### ts
 
-The timestamp of the message as an ISO 8601 string. Include as many decimals as needed for increased accuracy. Typical might be milliseconds, but some applications might require higher precision.
+The timestamp of the message in one of the following ISO 8601 formats:
+
+```
+YYYY-MM-DDThh:mm:ssZ
+YYYY-MM-DDThh:mm:ss±hh:mm
+YYYY-MM-DDThh:mm:ss.fZ
+YYYY-MM-DDThh:mm:ss.f±hh:mm
+```
+
+Include as many decimals as needed for increased accuracy. Typical might be milliseconds, but some applications might require higher precision.
 
 #### lat
 
